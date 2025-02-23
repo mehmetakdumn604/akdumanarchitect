@@ -178,7 +178,7 @@ class Architecture {
 
     await File(buildGradleFile).writeAsString(tempLines.join('\n'));
 
-    const podfileFile = './ios/Runner/Podfile';
+    const podfileFile = './ios/Podfile';
     var podfileLines = await File(podfileFile).readAsLines();
 
     for (int i = 0; i < podfileLines.length; i++) {
