@@ -46,19 +46,82 @@ flutter pub run makdumanarchitect:main
 The package creates a well-organized project structure following Clean Architecture principles:
 
 ```
-lib/
-├── common/
-│   ├── models/
-│   ├── viewModels/
-│   └── widgets/
-├── core/
-│   ├── base/
-│   ├── constants/
-│   ├── exports/
-│   ├── extensions/
-│   ├── mixins/
-│   └── services/
-└── pages/
+│   ├── scripts
+│   │   └── build_sh.dart (<1 KB)
+│   └── src
+│       ├── core
+│       │   ├── base
+│       │   │   ├── model
+│       │   │   │   └── base_model.dart (<1 KB)
+│       │   │   ├── view
+│       │   │   │   └── base_view.dart (1 KB)
+│       │   │   └── viewModel
+│       │   │       └── base_view_model.dart (<1 KB)
+│       │   ├── constants
+│       │   │   ├── app
+│       │   │   │   └── app_constants.dart (<1 KB)
+│       │   │   ├── colors
+│       │   │   │   └── color_constants.dart (<1 KB)
+│       │   │   ├── endPoints
+│       │   │   │   └── end_point_constants.dart (<1 KB)
+│       │   │   ├── enums
+│       │   │   │   ├── app_themes_enums.dart (<1 KB)
+│       │   │   │   ├── http_types_enums.dart (<1 KB)
+│       │   │   │   └── network_results_enums.dart (<1 KB)
+│       │   │   ├── local
+│       │   │   │   └── local_constants.dart (<1 KB)
+│       │   │   ├── navigation
+│       │   │   │   └── navigation_constants.dart (<1 KB)
+│       │   │   ├── notification
+│       │   │   │   └── notification_constants.dart (<1 KB)
+│       │   │   ├── textStyles
+│       │   │   │   └── text_style_constants.dart (3 KB)
+│       │   │   └── theme
+│       │   │       └── theme_constants.dart (<1 KB)
+│       │   ├── exports
+│       │   │   └── constants_exports.dart (<1 KB)
+│       │   ├── extensions
+│       │   │   ├── context_extension.dart (2 KB)
+│       │   │   └── sized_box_extension.dart (<1 KB)
+│       │   ├── mixins
+│       │   │   ├── device_orientation.dart (<1 KB)
+│       │   │   └── show_bar.dart (1 KB)
+│       │   └── services
+│       │       ├── analytics
+│       │       │   └── analytics_service.dart (2 KB)
+│       │       ├── local
+│       │       │   └── local_service.dart (1 KB)
+│       │       ├── navigation
+│       │       │   ├── navigation_route.dart (<1 KB)
+│       │       │   └── navigation_service.dart (1 KB)
+│       │       ├── network
+│       │       │   ├── network_exception.dart (2 KB)
+│       │       │   ├── network_service.dart (3 KB)
+│       │       │   └── response_parser.dart (<1 KB)
+│       │       ├── purchase
+│       │       │   └── purchase_manager.dart (5 KB)
+│       │       ├── remote_config
+│       │       │   └── remote_config_service.dart (1 KB)
+│       │       ├── size
+│       │       │   └── size_service.dart (<1 KB)
+│       │       └── theme
+│       │           └── theme_service.dart (<1 KB)
+│       └── pages
+│           └── home
+│               ├── model
+│               │   ├── post_model.dart (<1 KB)
+│               │   └── post_model.g.dart (<1 KB)
+│               ├── view
+│               │   └── home_view.dart (1 KB)
+│               ├── viewModel
+│               │   └── home_view_model.dart (1 KB)
+│               └── widget
+│                   └── one_item.dart (<1 KB)
+├── pubspec.yaml (2 KB)
+└── scripts
+    └── build.sh (<1 KB)
+
+Total compressed archive size: 71 KB
 ```
 
 ### Core Features Breakdown 🛠
