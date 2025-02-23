@@ -206,15 +206,9 @@ class Architecture {
     var tempLines = [
       lines[0],
       lines[1],
+      lines[2],
       '',
-      lines[4],
-      '',
-      lines[18],
-      '',
-      lines[20],
-      lines[21],
-      '\n',
-      pubspec
+      pubspec,
     ];
     await File(pubspecYaml).writeAsString(tempLines.join('\n'));
   }
