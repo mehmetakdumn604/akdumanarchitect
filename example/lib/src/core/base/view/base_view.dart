@@ -54,4 +54,3 @@ class _BaseViewState<T extends ChangeNotifier> extends State<BaseView<T>> {
     }
   }
 }
-

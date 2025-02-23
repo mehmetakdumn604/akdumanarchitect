@@ -6,7 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 
 /// A service class that handles Firebase Analytics integration for tracking user events and app usage.
-/// 
+///
 /// This service provides methods to log custom events, screen views, and user properties
 /// using Firebase Analytics. It follows a singleton pattern to ensure a single instance
 /// throughout the app lifecycle.
@@ -24,7 +24,7 @@ class AnalyticsHelper {
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   /// Initializes the analytics service.
-  /// 
+  ///
   /// This method should be called once during app initialization.
   void init() {
     iosValidation().then((value) {
@@ -35,10 +35,11 @@ class AnalyticsHelper {
   }
 
   /// Requests tracking authorization on iOS devices.
-  /// 
+  ///
   /// This method is used to request permission from the user to track their activity.
   Future<bool> iosValidation() async {
-    TrackingStatus status = await AppTrackingTransparency.requestTrackingAuthorization();
+    TrackingStatus status =
+        await AppTrackingTransparency.requestTrackingAuthorization();
     if (status == TrackingStatus.authorized) {
       return true;
     } else {
@@ -47,7 +48,7 @@ class AnalyticsHelper {
   }
 
   /// Logs a custom event with the specified name and parameters.
-  /// 
+  ///
   /// [event] is the name of the event to log
   /// [extra] is an optional map of event parameters
   void sendEvent(final String event, {final Map<String, Object?>? extra}) {
@@ -56,12 +57,13 @@ class AnalyticsHelper {
   }
 
   /// Initializes Firebase Crashlytics for error reporting.
-  /// 
+  ///
   /// [fatalError] indicates whether to record fatal or non-fatal errors
   void _initCrashlytics(bool fatalError) {
     // Non-async exceptions
     FlutterError.onError = (errorDetails) {
-      if (_nonFatalErrors.contains(errorDetails.toString())) { // prevent non-fatal errors
+      if (_nonFatalErrors.contains(errorDetails.toString())) {
+        // prevent non-fatal errors
         return;
       }
       if (fatalError) {

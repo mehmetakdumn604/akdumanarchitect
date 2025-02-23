@@ -26,4 +26,3 @@ mixin DeviceOrientationSettings {
     );
   }
 }
-

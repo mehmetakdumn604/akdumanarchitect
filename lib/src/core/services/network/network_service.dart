@@ -9,7 +9,7 @@ import '/src/core/mixins/show_bar.dart';
 import '/src/core/services/network/network_exception.dart';
 
 /// A service class that handles all network operations using Dio HTTP client.
-/// 
+///
 /// This service provides methods for making HTTP requests (GET, POST, PUT, DELETE)
 /// with built-in error handling, response parsing, and type-safe model conversion.
 /// It follows a singleton pattern to ensure a single instance throughout the app lifecycle.
@@ -43,7 +43,7 @@ class NetworkService with DioMixin, ShowBar {
   );
 
   /// Performs a network request to the specified endpoint.
-  /// 
+  ///
   /// [T] is the type of model to parse the response into
   /// [R] is the return type of the response
   /// [path] is the endpoint path
@@ -99,7 +99,7 @@ class NetworkService with DioMixin, ShowBar {
   }
 
   /// Refreshes the authentication token.
-  /// 
+  ///
   /// This method is used to refresh the authentication token when it expires.
   Future<String?> refreshToken() async {
     // tokenı bir süre sonra yenileyeceğimiz zaman istek attığımız yer

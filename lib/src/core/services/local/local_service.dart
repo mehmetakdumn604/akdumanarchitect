@@ -1,5 +1,5 @@
-
 import 'package:hive_flutter/hive_flutter.dart';
+
 // Uygulamanın local veri tabanını kullandığımız kısım
 class LocalCaching {
   static final LocalCaching _instance = LocalCaching._init();
@@ -17,7 +17,9 @@ class LocalCaching {
   }
 
   int get appCount {
-    int appCount = instance.getValueFromGeneral(CachingKeys.appCount.name, defaultValue: 0) ?? 0;
+    int appCount = instance.getValueFromGeneral(CachingKeys.appCount.name,
+            defaultValue: 0) ??
+        0;
     return appCount;
   }
 
@@ -27,31 +29,25 @@ class LocalCaching {
 
   bool get isFirstOpen => appCount == 0;
 
-
-  bool get isPremium => instance.getValueFromGeneral(CachingKeys.isPremium.name, defaultValue: false);
-
+  bool get isPremium => instance.getValueFromGeneral(CachingKeys.isPremium.name,
+      defaultValue: false);
 
   void setIsPremium(bool value) async {
     await instance.setValueToGeneral(CachingKeys.isPremium.name, value);
   }
 
-
-
   dynamic getValueFromGeneral(String key, {dynamic defaultValue}) {
     return instance.generalBox?.get(key) ?? defaultValue;
   }
-
 
   Future<void> setValueToGeneral(String key, dynamic value) async {
     await instance.generalBox!.put(key, value);
   }
 
-  
   void write(String key, dynamic value) {
     instance.generalBox!.put(key, value);
   }
 
-  
   dynamic read(String key) {
     return instance.generalBox!.get(key);
   }
@@ -61,4 +57,3 @@ enum CachingKeys {
   appCount,
   isPremium,
 }
-

@@ -11,7 +11,8 @@ class NetworkException with ShowBar, DioMixin {
 
   static NetworkException get instance => _instance;
 
-  void Function(DioException exception, ErrorInterceptorHandler handler) onError() {
+  void Function(DioException exception, ErrorInterceptorHandler handler)
+      onError() {
     return (DioException exception, handler) async {
       switch (exception.type) {
         case DioExceptionType.cancel:
@@ -50,7 +51,8 @@ class NetworkException with ShowBar, DioMixin {
             return showErrorBar('No Internet Or Wrong Host Request',
                 title: exception.error.toString());
           } else {
-            return showErrorBar('Unknown error', title: exception.error.toString());
+            return showErrorBar('Unknown error',
+                title: exception.error.toString());
           }
         default:
           return handler.next(exception);

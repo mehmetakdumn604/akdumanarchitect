@@ -3,4 +3,3 @@ class LocalConstants {
   static const theme = 'theme';
   static const language = 'language';
 }
-

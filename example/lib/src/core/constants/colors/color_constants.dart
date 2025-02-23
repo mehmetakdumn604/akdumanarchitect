@@ -7,4 +7,3 @@ class ColorConstants {
   static const red = Colors.red;
   static const green = Colors.green;
 }
-

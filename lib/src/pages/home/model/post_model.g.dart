@@ -13,4 +13,3 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'title': instance.title,
       'body': instance.body,
     };
-    

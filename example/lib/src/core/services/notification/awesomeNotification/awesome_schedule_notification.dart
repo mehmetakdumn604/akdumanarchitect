@@ -66,8 +66,6 @@ class AwesomeScheduleNotification {
     await awesomeNotification.cancelAll();
   }
 
-
-
   Future<void> startScheduleNotification({hour, minute}) async {
     this.hour = hour;
     this.minute = minute;
@@ -81,7 +79,7 @@ class AwesomeScheduleNotification {
         .isAfter(
       now,
     );
-     if (isAfter == false) {
+    if (isAfter == false) {
       thisDay += 1;
     }
     // bildirimleri 2 aylık oluşturuyoruz çünkü max 64 bildirimi belleğinde tutuyor
@@ -159,6 +157,5 @@ class AwesomeScheduleNotification {
         }
         break;
     }
-
   }
 }

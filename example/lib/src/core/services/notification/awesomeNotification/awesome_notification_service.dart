@@ -94,7 +94,6 @@ Future<void> onActionReceiveMethod(ReceivedAction receivedAction) async {
     // cloud messaging - arka plan - otomatik değilse
     // cloud messaging - kapalı - otomatik değilse
 
-
     // example payload json.decode(receivedAction.payload!['data']!))['type']
     if (receivedAction.summary == 'local') {
       // TODO: do something

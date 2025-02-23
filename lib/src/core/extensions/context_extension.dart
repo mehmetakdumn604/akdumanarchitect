@@ -39,30 +39,40 @@ extension PaddingExtensionAll on BuildContext {
 extension PaddingExtensionSymetric on BuildContext {
   EdgeInsets get paddingLowVertical => EdgeInsets.symmetric(vertical: lowValue);
 
-  EdgeInsets get paddingNormalVertical => EdgeInsets.symmetric(vertical: normalValue);
+  EdgeInsets get paddingNormalVertical =>
+      EdgeInsets.symmetric(vertical: normalValue);
 
-  EdgeInsets get paddingMediumVertical => EdgeInsets.symmetric(vertical: mediumValue);
+  EdgeInsets get paddingMediumVertical =>
+      EdgeInsets.symmetric(vertical: mediumValue);
 
-  EdgeInsets get paddingHighVertical => EdgeInsets.symmetric(vertical: highValue);
+  EdgeInsets get paddingHighVertical =>
+      EdgeInsets.symmetric(vertical: highValue);
 
-  EdgeInsets get paddingLowHorizontal => EdgeInsets.symmetric(horizontal: lowValue);
+  EdgeInsets get paddingLowHorizontal =>
+      EdgeInsets.symmetric(horizontal: lowValue);
 
-  EdgeInsets get paddingNormalHorizontal => EdgeInsets.symmetric(horizontal: normalValue);
+  EdgeInsets get paddingNormalHorizontal =>
+      EdgeInsets.symmetric(horizontal: normalValue);
 
-  EdgeInsets get paddingMediumHorizontal => EdgeInsets.symmetric(horizontal: mediumValue);
+  EdgeInsets get paddingMediumHorizontal =>
+      EdgeInsets.symmetric(horizontal: mediumValue);
 
-  EdgeInsets get paddingHighHorizontal => EdgeInsets.symmetric(horizontal: highValue);
+  EdgeInsets get paddingHighHorizontal =>
+      EdgeInsets.symmetric(horizontal: highValue);
 }
 
 extension RadiusCircularExtension on num {
-  BorderRadius get radiusVerticalTop => BorderRadius.vertical(top: Radius.circular(r));
-  
-  BorderRadius get radiusVerticalBottom => BorderRadius.vertical(bottom: Radius.circular(r));
-  
-  BorderRadius get radiusHorizontalLeft => BorderRadius.horizontal(left: Radius.circular(r));
-  
-  BorderRadius get radiusHorizontalRight => BorderRadius.horizontal(right: Radius.circular(r));
+  BorderRadius get radiusVerticalTop =>
+      BorderRadius.vertical(top: Radius.circular(r));
+
+  BorderRadius get radiusVerticalBottom =>
+      BorderRadius.vertical(bottom: Radius.circular(r));
+
+  BorderRadius get radiusHorizontalLeft =>
+      BorderRadius.horizontal(left: Radius.circular(r));
+
+  BorderRadius get radiusHorizontalRight =>
+      BorderRadius.horizontal(right: Radius.circular(r));
 
   BorderRadius get allRadius => BorderRadius.circular(r);
-
 }

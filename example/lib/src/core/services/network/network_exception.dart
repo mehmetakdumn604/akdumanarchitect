@@ -10,7 +10,8 @@ class NetworkException with ShowBar, DioMixin {
 
   static NetworkException get instance => _instance;
 
-  void Function(DioException exception, ErrorInterceptorHandler handler) onError() {
+  void Function(DioException exception, ErrorInterceptorHandler handler)
+      onError() {
     return (DioException exception, handler) async {
       switch (exception.type) {
         case DioExceptionType.cancel:
@@ -49,7 +50,8 @@ class NetworkException with ShowBar, DioMixin {
             return showErrorBar('No Internet Or Wrong Host Request',
                 title: exception.error.toString());
           } else {
-            return showErrorBar('Unknown error', title: exception.error.toString());
+            return showErrorBar('Unknown error',
+                title: exception.error.toString());
           }
         default:
           return handler.next(exception);
@@ -66,7 +68,7 @@ class NetworkException with ShowBar, DioMixin {
         // access tokenın süresi bitmişse yenileyip tekrardan istek atıyoruz
         // String? newAccessToken = await NetworkService.instance?.refreshToken();
         // requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
-        
+
         return handler.resolve(await fetch(requestOptions));
       case 403:
         return showErrorBar(error, title: 'Forbidden');

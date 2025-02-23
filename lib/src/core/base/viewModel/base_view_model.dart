@@ -7,4 +7,3 @@ mixin BaseViewModel {
   late BuildContext viewModelContext;
   NetworkService? networkService = NetworkService.instance!;
 }
-
