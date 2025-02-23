@@ -51,7 +51,7 @@ class AnalyticsHelper {
   ///
   /// [event] is the name of the event to log
   /// [extra] is an optional map of event parameters
-  void sendEvent(final String event, {final Map<String, Object?>? extra}) {
+  void sendEvent(final String event, {final Map<String, Object>? extra}) {
     analytics.logEvent(name: event, parameters: extra);
     log('Event: $event, extra: $extra');
   }
