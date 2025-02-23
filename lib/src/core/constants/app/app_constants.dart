@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:makdumanarchitect/src/pages/home/viewModel/home_view_model.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/viewModels/language_view_model.dart';
 
 // Uygulamayla ilgili temel veriler
 class AppConstants {
@@ -9,9 +9,8 @@ class AppConstants {
   static const fontFamily = 'fontFamily';
 
   static final defaultProviders = [
- 
-    ChangeNotifierProvider<LanguageViewModel>(
-      create: (context) => LanguageViewModel(),
+    ChangeNotifierProvider<HomeViewModel>(
+      create: (context) => HomeViewModel(),
     ),
   ];
 

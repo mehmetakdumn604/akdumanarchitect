@@ -7,10 +7,10 @@ class OneItem extends StatelessWidget {
   final int index;
 
   const OneItem({
-    Key? key,
+    super.key,
     required this.title,
     required this.index,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
