@@ -27,6 +27,16 @@ class LocalCaching {
 
   bool get isFirstOpen => appCount == 0;
 
+
+  bool get isPremium => instance.getValueFromGeneral(CachingKeys.isPremium.name, defaultValue: false);
+
+
+  void setIsPremium(bool value) async {
+    await instance.setValueToGeneral(CachingKeys.isPremium.name, value);
+  }
+
+
+
   dynamic getValueFromGeneral(String key, {dynamic defaultValue}) {
     return instance.generalBox?.get(key) ?? defaultValue;
   }
@@ -49,5 +59,6 @@ class LocalCaching {
 
 enum CachingKeys {
   appCount,
+  isPremium,
 }
 

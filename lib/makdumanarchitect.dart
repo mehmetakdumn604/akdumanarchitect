@@ -255,8 +255,13 @@ class Architecture {
     const controllers = '$common/viewModels';
     await Directory(controllers).create();
 
-    await File('$controllers/theme_view_model.dart')
-        .writeAsString(themeViewModel);
+     // widgets
+    const widgets = '$common/widgets';
+    await Directory(widgets).create();
+    
+    // models
+    const models = '$common/models';
+    await Directory(models).create();
   }
 
   static Future<void> createCore() async {

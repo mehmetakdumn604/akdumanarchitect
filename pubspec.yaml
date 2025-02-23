@@ -46,11 +46,12 @@ dependencies:
   flutter_screenutil: ^5.9.0
   # svg image package
   flutter_svg: ^2.0.9
-  adapty_flutter: ^2.10.4
   firebase_remote_config: ^4.3.8
   firebase_crashlytics: ^3.4.9
   firebase_analytics: ^10.7.4
   app_tracking_transparency: ^2.0.6
+  # purchase package
+  purchases_flutter: ^8.5.1
 
 
 
@@ -80,6 +81,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
+    - assets/translations/
 
 flutter_gen:
   output: lib/src/core/assets_gen/

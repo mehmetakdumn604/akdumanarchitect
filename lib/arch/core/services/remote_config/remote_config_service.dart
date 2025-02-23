@@ -1,9 +1,7 @@
-var remoteConfigServiceString = """import 'dart:convert';
+var remoteConfigServiceString = """
 import 'dart:developer';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-
-import '../purchase/model/paywall_model.dart';
 
 class RemoteConfigService {
   static final RemoteConfigService _instance = RemoteConfigService._init();
@@ -12,23 +10,6 @@ class RemoteConfigService {
   RemoteConfigService._init();
 
   FirebaseRemoteConfig get _remoteConfig => FirebaseRemoteConfig.instance;
-
-  Map<String, dynamic> get paywallUITemplate {
-    try {
-      final paywallUIJson = _remoteConfig.getString(RemoteConfigKeys.paywallUITemplate.value);
-
-      if (paywallUIJson.isEmpty) {
-        return examplePaywall;
-      }
-
-      Map<String, dynamic> paywallUIMap = jsonDecode(paywallUIJson);
-
-      return paywallUIMap;
-    } catch (e) {
-      log(e.toString(), name: 'RemoteConfigService.paywallUITemplate');
-      return examplePaywall;
-    }
-  }
 
   Future<void> initRemote() async {
     await _remoteConfig.ensureInitialized();
@@ -46,7 +27,7 @@ class RemoteConfigService {
     try {
       await _remoteConfig.setDefaults(
         {
-          RemoteConfigKeys.paywallUITemplate.value: jsonEncode(examplePaywall),
+          RemoteConfigKeys.exampleRemoteKey.value: "example_value",
         },
       );
 
@@ -58,11 +39,11 @@ class RemoteConfigService {
 }
 
 enum RemoteConfigKeys {
-  paywallUITemplate('paywall_ui'),
-  ;
+  exampleRemoteKey('example_remote_key');
 
   final String value;
 
   const RemoteConfigKeys(this.value);
 }
+
 """;
