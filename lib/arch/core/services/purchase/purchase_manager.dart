@@ -3,12 +3,11 @@ import 'dart:ui';
 
 import 'package:adapty_flutter/adapty_flutter.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:makdumanarchitect/src/core/services/local/local_service.dart';
-import 'package:makdumanarchitect/src/core/services/navigation/navigation_service.dart';
-import 'package:makdumanarchitect/src/core/services/remote_config/remote_config_service.dart';
+import '../src/core/services/local/local_service.dart';
+import '../src/core/services/navigation/navigation_service.dart';
+import '../src/core/services/remote_config/remote_config_service.dart';
 
 import '../../constants/navigation/navigation_constants.dart';
-import '../language/languages/l10n.dart';
 import 'model/paywall_model.dart';
 
 class PurchaseService {
@@ -126,7 +125,7 @@ class PurchaseService {
   }
   double _parsePrice(String price) {
     // Remove all non-numeric characters except for ',' and '.'
-    String cleanedPrice = price.replaceAll(RegExp(r'[^\d.,]'), '');
+    String cleanedPrice = price.replaceAll(RegExp(r'[^d.,]'), '');
 
     // If there's more than one '.', assume the last one is the decimal separator
     if (cleanedPrice.contains(',')) {

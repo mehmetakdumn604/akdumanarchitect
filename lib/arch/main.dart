@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:makdumanarchitect/src/core/services/local/local_service.dart';
-import 'package:makdumanarchitect/src/core/services/purchase/purchase_manager.dart';
+import 'package:../src/core/services/local/local_service.dart';
+import 'package:../src/core/services/purchase/purchase_manager.dart';
 import 'package:provider/provider.dart';
 
 import 'src/common/viewModels/language_view_model.dart';

@@ -13,7 +13,7 @@ class BaseView<T extends ChangeNotifier> extends StatefulWidget {
     this.onModelReady,
     this.onDispose,
     this.justConsumer,
-  }) : super(key: key);
+  });
   final Widget Function(BuildContext context, T model, Widget? child)
       onPageBuilder;
   final T viewModel;

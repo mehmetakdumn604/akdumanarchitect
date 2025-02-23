@@ -1,5 +1,5 @@
 var buttonModel =
-    """import 'package:makdumanarchitect/src/core/services/purchase/model/button_style.dart';
+    """import 'package:../src/core/services/purchase/model/button_style.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
