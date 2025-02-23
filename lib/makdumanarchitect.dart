@@ -39,9 +39,9 @@ import 'scripts/build_sh.dart';
 
 const pubspec = """
 environment:
-  sdk: ">=3.3.0 <4.0.0"
+  sdk: ">=3.0.0 <4.0.0"
   flutter: ">=1.17.0"
-  
+
 dependencies:
   flutter:
     sdk: flutter
