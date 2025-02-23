@@ -28,10 +28,10 @@ dependencies:
   json_annotation: ^4.9.0
 
   # local notifications
-  awesome_notifications: ^0.10.1
+  awesome_notifications: ^0.8.2
 
-  # firebase notifications
-  firebase_messaging: ^15.2.3
+  #firebase notifications
+  firebase_messaging: ^15.1.0
 
   # language support
   flutter_localizations:
@@ -43,25 +43,17 @@ dependencies:
 
   # loading spinner package
   flutter_easyloading: ^3.0.5
-
   # responsive package
   flutter_screenutil: ^5.9.3
 
   # svg image package
   flutter_svg: ^2.0.9
-
-  # firebase packages
-  firebase_remote_config: ^5.4.1
-  firebase_crashlytics: ^4.3.3
-  firebase_analytics: ^11.4.3
-
-  # tracking
+  firebase_remote_config: ^5.1.0
+  firebase_crashlytics: ^4.1.0
+  firebase_analytics: ^11.3.0
   app_tracking_transparency: ^2.0.6+1
-
-  # purchases
+  # purchase package
   purchases_flutter: ^8.5.1
-
-
 
 dev_dependencies:
   flutter_test:
@@ -73,14 +65,13 @@ dev_dependencies:
   flutter_gen: ^5.4.0
   flutter_gen_runner: ^5.4.0
   # native splash screen
-  flutter_native_splash: ^2.3.9
+  flutter_native_splash: ^2.4.0
   # app icon
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.3
   # cache model generator
   hive_generator: ^2.0.1
   # package name change
-  package_rename: ^1.6.0
-
+  #package_rename: ^1.6.0
 
 
 flutter:
