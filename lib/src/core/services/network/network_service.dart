@@ -9,7 +9,6 @@ import '../../../../src/core/mixins/show_bar.dart';
 import '../../../core/services/network/response_parser.dart';
 import '../../base/model/base_model.dart';
 import '../../exports/constants_exports.dart';
-import '../local/local_service.dart';
 import 'network_exception.dart';
 
 class NetworkService with DioMixin, ShowBar {
