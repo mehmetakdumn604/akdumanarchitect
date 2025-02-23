@@ -175,7 +175,21 @@ class Architecture {
         tempLines[i] = '        minSdkVersion 21';
       }
     }
+
     await File(buildGradleFile).writeAsString(tempLines.join('\n'));
+
+    const podfileFile = './ios/Runner/Podfile';
+    var podfileLines = await File(podfileFile).readAsLines();
+
+    for (int i = 0; i < podfileLines.length; i++) {
+      if (podfileLines[i].contains('#platform :ios, \'12.0\'')) {
+        podfileLines[i] = 'platform :ios, \'13.0\'';
+        break;
+      }
+    }
+
+    await File(podfileFile).writeAsString(podfileLines.join('\n'));
+
     await changePubspecYaml();
     await createTranslationJsons();
     await createCommon();
