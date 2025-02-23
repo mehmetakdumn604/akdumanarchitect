@@ -1,8 +1,8 @@
 const appConstants = """
 import 'package:flutter/material.dart';
+import '/src/pages/home/viewModel/home_view_model.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/viewModels/theme_view_model.dart';
 
 // Uygulamayla ilgili temel veriler
 class AppConstants {
@@ -10,8 +10,8 @@ class AppConstants {
   static const fontFamily = 'fontFamily';
 
   static final defaultProviders = [
-    ChangeNotifierProvider<ThemeViewModel>(
-      create: (context) => ThemeViewModel(),
+    ChangeNotifierProvider<HomeViewModel>(
+      create: (context) => HomeViewModel(),
     ),
   ];
 
@@ -24,5 +24,7 @@ class AppConstants {
 
   static const Locale fallbackLocale = Locale("en", "");
 }
+
+
 
 """;

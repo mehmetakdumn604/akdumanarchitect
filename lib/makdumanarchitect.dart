@@ -180,15 +180,16 @@ class Architecture {
 
     const podfileFile = './ios/Podfile';
     var podfileLines = await File(podfileFile).readAsLines();
-
+    var tempPodfileLines = [];
+    tempPodfileLines.addAll(podfileLines);
     for (int i = 0; i < podfileLines.length; i++) {
       if (podfileLines[i].contains('#platform :ios, \'12.0\'')) {
-        podfileLines[i] = 'platform :ios, \'13.0\'';
+        tempPodfileLines[i] = 'platform :ios, \'13.0\'';
         break;
       }
     }
 
-    await File(podfileFile).writeAsString(podfileLines.join('\n'));
+    await File(podfileFile).writeAsString(tempPodfileLines.join('\n'));
 
     await changePubspecYaml();
     await createTranslationJsons();
