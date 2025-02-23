@@ -14,7 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await LocalCaching.init();
-  await PurchaseService.instance.init();
+  await PurchaseManager.initRevenueCat();
   runApp(
     EasyLocalization(
       supportedLocales: AppConstants.supportedLocales,

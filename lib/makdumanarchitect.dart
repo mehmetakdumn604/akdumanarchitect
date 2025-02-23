@@ -5,24 +5,9 @@ library makdumanarchitect;
 import 'dart:io';
 
 import 'package:makdumanarchitect/arch/core/services/analytics/analytics_service.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/body.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/button.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/button_style.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/configurations.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/content.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/description.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/description_style_model.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/footer.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/header.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/link.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/media.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/paywall_model.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/period.dart';
-import 'package:makdumanarchitect/arch/core/services/purchase/model/product.dart';
 import 'package:makdumanarchitect/arch/core/services/purchase/purchase_manager.dart';
 import 'package:makdumanarchitect/arch/core/services/remote_config/remote_config_service.dart';
 
-import 'arch/common/viewModels/theme_view_model.dart';
 import 'arch/core/base/model/base_model.dart';
 import 'arch/core/base/view/base_view.dart';
 import 'arch/core/base/viewModel/base_view_model.dart';
@@ -408,37 +393,10 @@ class Architecture {
 
     // purchase service
     const purchaseServicePath = '$services/purchase';
-    const purchaseModelServicePath = '$services/purchase/model';
     await Directory(purchaseServicePath).create();
     await File('$purchaseServicePath/purchase_manager.dart')
         .writeAsString(purchaseManager);
-    await Directory(purchaseModelServicePath).create();
-    await File('$purchaseModelServicePath/body.dart').writeAsString(bodyModel);
-    await File('$purchaseModelServicePath/button_style.dart')
-        .writeAsString(buttonStyleModel);
-    await File('$purchaseModelServicePath/button.dart')
-        .writeAsString(buttonModel);
-    await File('$purchaseModelServicePath/configurations.dart')
-        .writeAsString(configurationsModel);
-    await File('$purchaseModelServicePath/content.dart')
-        .writeAsString(contentModel);
-    await File('$purchaseModelServicePath/description_style_model.dart')
-        .writeAsString(descriptionStyleModel);
-    await File('$purchaseModelServicePath/description.dart')
-        .writeAsString(descriptionModel);
-    await File('$purchaseModelServicePath/footer.dart')
-        .writeAsString(footerModel);
-    await File('$purchaseModelServicePath/header.dart')
-        .writeAsString(headerModel);
-    await File('$purchaseModelServicePath/link.dart').writeAsString(linkModel);
-    await File('$purchaseModelServicePath/media.dart')
-        .writeAsString(mediaModel);
-    await File('$purchaseModelServicePath/paywall_model.dart')
-        .writeAsString(paywallModel);
-    await File('$purchaseModelServicePath/period.dart')
-        .writeAsString(periodModel);
-    await File('$purchaseModelServicePath/product.dart')
-        .writeAsString(productModel);
+ 
 
     // remote config service
     const remoteConfigService = '$services/remote_config';
