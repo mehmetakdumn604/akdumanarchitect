@@ -1,6 +1,6 @@
 name: makdumanarchitect
 description: You can create a clean structure and benefit from its features
-version: 1.0.1
+version: 1.0.2
 homepage: https://github.com/mehmetakdumn604/akdumanarchitect
 
 
@@ -16,7 +16,7 @@ dependencies:
   provider: ^6.1.2
 
   # network request
-  dio: ^5.8.0
+  dio: ^5.8.0+1
 
   # local storage
   hive_flutter: ^1.1.0

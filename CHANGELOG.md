@@ -1,4 +1,8 @@
 
+## [1.0.2] - (23.02.2025)
+
+* Applied dart format .
+
 ## [1.0.1] - (23.02.2025)
 
 * Fixed type mismatch in analytics service
