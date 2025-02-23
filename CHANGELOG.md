@@ -1,8 +1,12 @@
-## [0.0.1] - (23.02.2025)
 
-* Project folder structure created
+## [1.0.1] - (23.02.2025)
 
-## [1.0.0] - (current date)
+* Fixed type mismatch in analytics service
+* Improved network service implementation
+* Updated dependencies to be compatible with Flutter SDK
+* Enhanced code documentation
+
+## [1.0.0] - (23.02.2025)
 
 Initial release with the following features:
 
@@ -20,3 +24,7 @@ Initial release with the following features:
 * Loading indicators with flutter_easyloading
 * Base classes for Models, Views, and ViewModels
 * Utility extensions and mixins
+
+## [0.0.1] - (23.02.2025)
+
+* Project folder structure created
