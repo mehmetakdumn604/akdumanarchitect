@@ -127,10 +127,11 @@ class PurchaseManager {
     try {
       EasyLoading.show();
 
-      final CustomerInfo purchase =
-          await Purchases.purchasePackage(purchasePackage);
+      final PurchaseResult purchaseResult =
+          await Purchases.purchase(PurchaseParams.package(purchasePackage));
 
       EasyLoading.dismiss();
+      final CustomerInfo purchase = purchaseResult.customerInfo;
       if (purchase.allPurchasedProductIdentifiers
           .contains(purchasePackage.storeProduct.identifier)) {
         LocalCaching.instance.setIsPremium(true);

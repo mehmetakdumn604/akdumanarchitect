@@ -205,16 +205,75 @@ class Architecture {
   }
 
   static Future<void> changePubspecYaml() async {
-    const pubspecYaml = './pubspec.yaml';
-    final List<String> lines = File(pubspecYaml).readAsLinesSync();
-    var tempLines = [
-      lines[0],
-      lines[1],
-      lines[2],
-      '',
-      pubspec,
-    ];
-    await File(pubspecYaml).writeAsString(tempLines.join('\n'));
+    // Parse packages from pubspec string
+    final List<String> dependencies = [];
+    final List<String> devDependencies = [];
+
+    bool inDependencies = false;
+    bool inDevDependencies = false;
+
+    for (final line in pubspec.split('\n')) {
+      final trimmedLine = line.trim();
+
+      if (trimmedLine == 'dependencies:') {
+        inDependencies = true;
+        inDevDependencies = false;
+        continue;
+      }
+
+      if (trimmedLine == 'dev_dependencies:') {
+        inDependencies = false;
+        inDevDependencies = true;
+        continue;
+      }
+
+      if (trimmedLine.isEmpty || trimmedLine.startsWith('#')) {
+        continue;
+      }
+
+      // Skip flutter SDK dependencies
+      if (trimmedLine.contains('sdk:') || trimmedLine.contains('flutter:')) {
+        continue;
+      }
+
+      // Extract package name (format: package_name: version)
+      if (trimmedLine.contains(':')) {
+        final packageName = trimmedLine.split(':')[0].trim();
+        if (packageName.isNotEmpty) {
+          if (inDependencies) {
+            dependencies.add(packageName);
+          } else if (inDevDependencies) {
+            devDependencies.add(packageName);
+          }
+        }
+      }
+    }
+
+    // Run flutter pub add for dependencies
+    if (dependencies.isNotEmpty) {
+      final result = await Process.run(
+        'flutter',
+        ['pub', 'add', ...dependencies],
+        workingDirectory: Directory.current.path,
+      );
+
+      if (result.exitCode != 0) {
+        print('Error adding dependencies: ${result.stderr}');
+      }
+    }
+
+    // Run flutter pub add --dev for dev_dependencies
+    if (devDependencies.isNotEmpty) {
+      final result = await Process.run(
+        'flutter',
+        ['pub', 'add', '--dev', ...devDependencies],
+        workingDirectory: Directory.current.path,
+      );
+
+      if (result.exitCode != 0) {
+        print('Error adding dev dependencies: ${result.stderr}');
+      }
+    }
   }
 
   static Future<void> createTranslationJsons() async {
@@ -284,8 +343,7 @@ class Architecture {
     // base view model
     const baseViewModelI = '$base/viewModel';
     await Directory(baseViewModelI).create();
-    await File('$baseViewModelI/base_view_model.dart')
-        .writeAsString(baseViewModel);
+    await File('$baseViewModelI/base_view_model.dart').writeAsString(baseViewModel);
 
     // constants
     const constants = '$core/constants';
@@ -299,22 +357,19 @@ class Architecture {
     // color constants
     const colorConstantsI = '$constants/colors';
     await Directory(colorConstantsI).create();
-    await File('$colorConstantsI/color_constants.dart')
-        .writeAsString(colorConstants);
+    await File('$colorConstantsI/color_constants.dart').writeAsString(colorConstants);
 
     // endPoint constants
     const endPointConstantsI = '$constants/endPoints';
     await Directory(endPointConstantsI).create();
-    await File('$endPointConstantsI/end_point_constants.dart')
-        .writeAsString(endPointConstants);
+    await File('$endPointConstantsI/end_point_constants.dart').writeAsString(endPointConstants);
 
     // enums
     const enums = '$constants/enums';
     await Directory(enums).create();
     await File('$enums/app_themes_enums.dart').writeAsString(appThemesEnums);
     await File('$enums/http_types_enums.dart').writeAsString(httpTypesEnums);
-    await File('$enums/network_results_enums.dart')
-        .writeAsString(networkResultEnums);
+    await File('$enums/network_results_enums.dart').writeAsString(networkResultEnums);
 
     // navigation constants
     const navigationConstantsI = '$constants/navigation';
@@ -325,20 +380,17 @@ class Architecture {
     // text styles constants
     const testStyleConstantsI = '$constants/textStyles';
     await Directory(testStyleConstantsI).create();
-    await File('$testStyleConstantsI/text_style_constants.dart')
-        .writeAsString(textStyleConstants);
+    await File('$testStyleConstantsI/text_style_constants.dart').writeAsString(textStyleConstants);
 
     // theme constants
     const themeConstantsI = '$constants/theme';
     await Directory(themeConstantsI).create();
-    await File('$themeConstantsI/theme_constants.dart')
-        .writeAsString(themeConstants);
+    await File('$themeConstantsI/theme_constants.dart').writeAsString(themeConstants);
 
     // local constants
     const localConstantsI = '$constants/local';
     await Directory(localConstantsI).create();
-    await File('$localConstantsI/local_constants.dart')
-        .writeAsString(localConstants);
+    await File('$localConstantsI/local_constants.dart').writeAsString(localConstants);
 
     // // image constants
     // const notificationConstantsI = '$constants/notification';
@@ -348,22 +400,18 @@ class Architecture {
     // exports
     const exports = '$core/exports';
     await Directory(exports).create();
-    await File('$exports/constants_exports.dart')
-        .writeAsString(constantExports);
+    await File('$exports/constants_exports.dart').writeAsString(constantExports);
 
     // extensions
     const extensions = '$core/extensions';
     await Directory(extensions).create();
-    await File('$extensions/context_extension.dart')
-        .writeAsString(contextExtension);
-    await File('$extensions/sized_box_extension.dart')
-        .writeAsString(sizedBoxExtension);
+    await File('$extensions/context_extension.dart').writeAsString(contextExtension);
+    await File('$extensions/sized_box_extension.dart').writeAsString(sizedBoxExtension);
 
     // mixins
     const mixins = '$core/mixins';
     await Directory(mixins).create();
-    await File('$mixins/device_orientation.dart')
-        .writeAsString(deviceOrientation);
+    await File('$mixins/device_orientation.dart').writeAsString(deviceOrientation);
     await File('$mixins/show_bar.dart').writeAsString(showBar);
 
     // services
@@ -373,8 +421,7 @@ class Architecture {
     // analytics service
     const analyticsServicePath = '$services/analytics';
     await Directory(analyticsServicePath).create();
-    await File('$analyticsServicePath/analytics_service.dart')
-        .writeAsString(analyticsService);
+    await File('$analyticsServicePath/analytics_service.dart').writeAsString(analyticsService);
 
     // connection service
     /*
@@ -400,16 +447,13 @@ class Architecture {
     // navigation service
     const navigationServiceI = '$services/navigation';
     await Directory(navigationServiceI).create();
-    await File('$navigationServiceI/navigation_service.dart')
-        .writeAsString(navigationService);
-    await File('$navigationServiceI/navigation_route.dart')
-        .writeAsString(navigationRoute);
+    await File('$navigationServiceI/navigation_service.dart').writeAsString(navigationService);
+    await File('$navigationServiceI/navigation_route.dart').writeAsString(navigationRoute);
 
     // purchase service
     const purchaseServicePath = '$services/purchase';
     await Directory(purchaseServicePath).create();
-    await File('$purchaseServicePath/purchase_manager.dart')
-        .writeAsString(purchaseManager);
+    await File('$purchaseServicePath/purchase_manager.dart').writeAsString(purchaseManager);
 
     // remote config service
     const remoteConfigService = '$services/remote_config';
@@ -445,8 +489,7 @@ class Architecture {
     // home viewModel
     const homeViewModelI = '$homePage/viewModel';
     await Directory(homeViewModelI).create();
-    await File('$homeViewModelI/home_view_model.dart')
-        .writeAsString(homeViewModel);
+    await File('$homeViewModelI/home_view_model.dart').writeAsString(homeViewModel);
 
     // home widget
     const homeWidget = '$homePage/widget';

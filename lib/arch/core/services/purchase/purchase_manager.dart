@@ -67,7 +67,7 @@ class PurchaseManager {
       instance._offerings ??= await Purchases.getOfferings();
       return instance._offerings;
     } catch (e) {
-      log('Hata getOfferings(): \$e');
+      log('Error getOfferings():');
       return null;
     }
   }
@@ -85,8 +85,7 @@ class PurchaseManager {
       Purchases.setLogLevel(LogLevel.debug);
 
       LogInResult logInResult = await Purchases.logIn(appUserId);
-      log("Login result: \${logInResult.created}");
-
+     
       instance.isPremium();
       await instance.getOfferings();
 
@@ -100,7 +99,7 @@ class PurchaseManager {
         }
       });
     } catch (e) {
-      log('Hata initRevenueCat(): \$e');
+      log('Error initRevenueCat():');
     }
   }
 
@@ -119,7 +118,7 @@ class PurchaseManager {
       }
       return isPremium;
     } catch (e) {
-      log('Hata: \$e');
+      log('Error: isPremium()');
       return false;
     }
   }
@@ -128,10 +127,11 @@ class PurchaseManager {
     try {
       EasyLoading.show();
 
-      final CustomerInfo purchase =
-          await Purchases.purchasePackage(purchasePackage);
+      final PurchaseResult purchaseResult =
+          await Purchases.purchase(PurchaseParams.package(purchasePackage));
 
       EasyLoading.dismiss();
+      final CustomerInfo purchase = purchaseResult.customerInfo;
       if (purchase.allPurchasedProductIdentifiers
           .contains(purchasePackage.storeProduct.identifier)) {
         LocalCaching.instance.setIsPremium(true);
@@ -141,7 +141,7 @@ class PurchaseManager {
       return false;
       // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      log('Hata purchaseSubscription(): \$e');
+      log('Error purchaseSubscription()');
       LocalCaching.instance.setIsPremium(false);
       EasyLoading.dismiss();
 
