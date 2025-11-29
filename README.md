@@ -8,6 +8,7 @@ A powerful Flutter package that implements Clean Architecture principles, provid
 ## Features 🚀
 
 - ✅ Clean Architecture folder structure
+- ✅ **Automatic package installation** - Uses `flutter pub add` for automatic version resolution
 - ✅ Pre-configured state management with Provider
 - ✅ Network handling with Dio
 - ✅ Local storage with Hive
@@ -26,7 +27,7 @@ Add `makdumanarchitect` to your `pubspec.yaml`:
 
 ```yaml
 dev_dependencies:
-  makdumanarchitect: ^1.0.0
+  makdumanarchitect: ^1.0.3
 ```
 
 Run:
@@ -40,6 +41,13 @@ Generate the project structure:
 ```bash
 flutter pub run makdumanarchitect:main
 ```
+
+This command will:
+- Create the complete Clean Architecture folder structure
+- **Automatically install all required packages** using `flutter pub add` (no version conflicts!)
+- Configure Android and iOS settings
+- Set up translation files
+- Generate base classes and services
 
 ## Project Structure 📁
 
@@ -145,6 +153,25 @@ Total compressed archive size: 71 KB
 - SizedBox extensions for cleaner spacing
 - Device orientation utilities
 - Snackbar and dialog mixins
+
+## Key Improvements in v1.0.3 🎯
+
+### Automatic Dependency Management
+
+The package now uses `flutter pub add` to automatically install dependencies, which means:
+
+- ✅ **No version conflicts** - Flutter automatically resolves compatible versions
+- ✅ **Always up-to-date** - Gets the latest compatible versions
+- ✅ **Simplified maintenance** - No need to manually update version constraints
+- ✅ **Better compatibility** - Works seamlessly with Flutter SDK dependencies
+
+When you run the generator, it will execute:
+```bash
+flutter pub add provider dio hive_flutter connectivity_plus ...
+flutter pub add --dev build_runner flutter_lints json_serializable ...
+```
+
+This ensures all packages are installed with versions compatible with your Flutter SDK version.
 
 ## Usage Examples 💡
 

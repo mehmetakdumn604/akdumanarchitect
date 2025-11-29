@@ -1,3 +1,9 @@
+## [1.0.3] - (2025-11-29)
+
+* ✨ **NEW**: Automatic package installation using `flutter pub add` command
+* 🐛 **FIX**: Resolved dependency version conflicts by using Flutter's automatic version resolution
+* 🔧 **IMPROVEMENT**: Packages are now added with compatible versions automatically, eliminating manual version management
+* 📦 **IMPROVEMENT**: Better handling of SDK dependencies (flutter_localizations, etc.)
 
 ## [1.0.2] - (23.02.2025)
 
