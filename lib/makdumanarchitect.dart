@@ -227,27 +227,71 @@ class Architecture {
         continue;
       }
 
+      // Stop parsing when we hit non-dependency sections
+      if (trimmedLine == 'flutter:' ||
+          trimmedLine == 'flutter_gen:' ||
+          trimmedLine == 'flutter_native_splash:' ||
+          trimmedLine == 'flutter_launcher_icons:' ||
+          trimmedLine == 'package_rename_config:') {
+        inDependencies = false;
+        inDevDependencies = false;
+        continue;
+      }
+
       if (trimmedLine.isEmpty || trimmedLine.startsWith('#')) {
         continue;
       }
 
       // Skip flutter SDK dependencies
-      if (trimmedLine.contains('sdk:') || trimmedLine.contains('flutter:')) {
+      if (trimmedLine.contains('sdk:') ||
+          trimmedLine == 'flutter:' ||
+          trimmedLine.startsWith('  flutter:') ||
+          trimmedLine.contains('flutter_test:')) {
         continue;
       }
 
       // Extract package name (format: package_name: version)
       if (trimmedLine.contains(':')) {
-        final packageName = trimmedLine.split(':')[0].trim();
-        if (packageName.isNotEmpty) {
-          if (inDependencies) {
-            dependencies.add(packageName);
-          } else if (inDevDependencies) {
-            devDependencies.add(packageName);
+        final colonIndex = trimmedLine.indexOf(':');
+        if (colonIndex > 0) {
+          final packageName = trimmedLine.substring(0, colonIndex).trim();
+          final versionPart = trimmedLine.substring(colonIndex + 1).trim();
+
+          // Skip invalid package names
+          if (packageName.isEmpty ||
+              packageName == 'flutter' ||
+              packageName == 'flutter_test' ||
+              packageName.contains(' ')) {
+            continue;
+          }
+
+          // Validate package name format (should be lowercase with _ or -)
+          if (!RegExp(r'^[a-z][a-z0-9_\-]*$').hasMatch(packageName)) {
+            continue;
+          }
+
+          // Skip if version is empty, contains 'sdk', or is just whitespace
+          if (versionPart.isEmpty || versionPart.contains('sdk') || versionPart.trim().isEmpty) {
+            continue;
+          }
+
+          // Only add packages with valid version constraints (^, ~, or version number)
+          if (versionPart.startsWith('^') ||
+              versionPart.startsWith('~') ||
+              RegExp(r'^\d+\.\d+').hasMatch(versionPart)) {
+            if (inDependencies) {
+              dependencies.add(packageName);
+            } else if (inDevDependencies) {
+              devDependencies.add(packageName);
+            }
           }
         }
       }
     }
+
+    // Filter out any empty values
+    dependencies.removeWhere((p) => p.isEmpty);
+    devDependencies.removeWhere((p) => p.isEmpty);
 
     // Run flutter pub add for dependencies
     if (dependencies.isNotEmpty) {
