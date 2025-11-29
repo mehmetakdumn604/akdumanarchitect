@@ -215,6 +215,7 @@ class Architecture {
     for (final line in pubspec.split('\n')) {
       final trimmedLine = line.trim();
 
+      // Check for section headers
       if (trimmedLine == 'dependencies:') {
         inDependencies = true;
         inDevDependencies = false;
@@ -227,30 +228,45 @@ class Architecture {
         continue;
       }
 
-      // Stop parsing when we hit non-dependency sections
-      if (trimmedLine == 'flutter:' ||
-          trimmedLine == 'flutter_gen:' ||
-          trimmedLine == 'flutter_native_splash:' ||
-          trimmedLine == 'flutter_launcher_icons:' ||
-          trimmedLine == 'package_rename_config:') {
+      // Stop parsing when we hit non-dependency sections (top level, no indentation)
+      if (!line.startsWith(' ') &&
+          !line.startsWith('\t') &&
+          trimmedLine.endsWith(':') &&
+          trimmedLine != 'dependencies:' &&
+          trimmedLine != 'dev_dependencies:') {
         inDependencies = false;
         inDevDependencies = false;
         continue;
       }
 
+      // Skip empty lines and comments
       if (trimmedLine.isEmpty || trimmedLine.startsWith('#')) {
         continue;
       }
 
+      // Skip lines that are not in a dependency section
+      if (!inDependencies && !inDevDependencies) {
+        continue;
+      }
+
       // Skip flutter SDK dependencies
-      if (trimmedLine.contains('sdk:') ||
-          trimmedLine == 'flutter:' ||
-          trimmedLine.startsWith('  flutter:') ||
-          trimmedLine.contains('flutter_test:')) {
+      // Check for 'sdk:' which indicates SDK dependency
+      if (trimmedLine.contains('sdk:')) {
+        continue;
+      }
+
+      // Skip 'flutter:' line itself (it's a section, not a package)
+      if (trimmedLine == 'flutter:') {
+        continue;
+      }
+
+      // Skip flutter_test in dev_dependencies
+      if (trimmedLine.startsWith('flutter_test:')) {
         continue;
       }
 
       // Extract package name (format: package_name: version)
+      // Only process lines that have a colon and look like package declarations
       if (trimmedLine.contains(':')) {
         final colonIndex = trimmedLine.indexOf(':');
         if (colonIndex > 0) {
@@ -292,6 +308,10 @@ class Architecture {
     // Filter out any empty values
     dependencies.removeWhere((p) => p.isEmpty);
     devDependencies.removeWhere((p) => p.isEmpty);
+
+    // Debug: print parsed packages
+    print('Parsed dependencies: ${dependencies.join(', ')}');
+    print('Parsed dev_dependencies: ${devDependencies.join(', ')}');
 
     // Run flutter pub add for dependencies
     if (dependencies.isNotEmpty) {
