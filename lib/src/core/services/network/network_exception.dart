@@ -54,8 +54,6 @@ class NetworkException with ShowBar, DioMixin {
             return showErrorBar('Unknown error',
                 title: exception.error.toString());
           }
-        default:
-          return handler.next(exception);
       }
     };
   }
