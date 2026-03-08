@@ -1,3 +1,10 @@
+## [1.0.6] - (2026-03-08)
+
+* ✨ **NEW**: Android Gradle Kotlin DSL (build.gradle.kts) support for Flutter's new build format
+* 🔧 **IMPROVEMENT**: Example app migrated to build.gradle.kts, settings.gradle.kts with new Flutter plugin loader
+* 🔧 **IMPROVEMENT**: `createArchitecture` now supports both build.gradle and build.gradle.kts for minSdk configuration
+* 📦 **IMPROVEMENT**: Compatible with Flutter 3.24+ Android Gradle structure
+
 ## [1.0.3] - (2025-11-29)
 
 * ✨ **NEW**: Automatic package installation using `flutter pub add` command

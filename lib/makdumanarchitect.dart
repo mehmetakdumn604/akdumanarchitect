@@ -170,17 +170,21 @@ class Architecture {
     const assetsTranslationsFolder = 'assets/translations/';
     await Directory(assetsTranslationsFolder).create();
 
-    const buildGradleFile = './android/app/build.gradle';
-    var lines = await File(buildGradleFile).readAsLines();
-    var tempLines = [];
-    tempLines.addAll(lines);
+    const buildGradleKtsPath = './android/app/build.gradle.kts';
+    const buildGradlePath = './android/app/build.gradle';
+    final File androidBuildFile = File(buildGradleKtsPath).existsSync()
+        ? File(buildGradleKtsPath)
+        : File(buildGradlePath);
+    final List<String> lines = await androidBuildFile.readAsLines();
+    final List<String> tempLines = List<String>.from(lines);
     for (int i = 0; i < lines.length; i++) {
-      if (lines[i].contains('minSdkVersion')) {
+      if (lines[i].contains('minSdk =')) {
+        tempLines[i] = '        minSdk = 21';
+      } else if (lines[i].contains('minSdkVersion')) {
         tempLines[i] = '        minSdkVersion 21';
       }
     }
-
-    await File(buildGradleFile).writeAsString(tempLines.join('\n'));
+    await androidBuildFile.writeAsString(tempLines.join('\n'));
 
     const podfileFile = './ios/Podfile';
     var podfileLines = await File(podfileFile).readAsLines();

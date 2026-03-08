@@ -1,7 +1,9 @@
 name: makdumanarchitect
 description: A Flutter package that generates a Clean Architecture project structure with automatic dependency management. Creates a scalable, maintainable codebase with pre-configured services, base classes, and essential features.
-version: 1.0.5
+version: 1.0.6
 homepage: https://github.com/mehmetakdumn604/akdumanarchitect
+repository: https://github.com/mehmetakdumn604/akdumanarchitect
+documentation: https://github.com/mehmetakdumn604/akdumanarchitect#readme
 
 
 environment:

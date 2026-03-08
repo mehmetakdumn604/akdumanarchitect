@@ -1,0 +1,4 @@
+# Exclude old Groovy Gradle files (replaced by .kts)
+example/android/app/build.gradle
+example/android/build.gradle
+example/android/settings.gradle
