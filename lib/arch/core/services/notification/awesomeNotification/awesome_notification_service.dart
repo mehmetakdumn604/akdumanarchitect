@@ -1,3 +1,4 @@
+/// Template for the generated Awesome Notifications wrapper service.
 const awesomeNotificationService = """
 import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';

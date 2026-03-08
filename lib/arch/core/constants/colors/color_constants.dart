@@ -1,3 +1,4 @@
+/// Template for the generated color constants used across the app.
 const colorConstants = """
 import 'package:flutter/material.dart';
 

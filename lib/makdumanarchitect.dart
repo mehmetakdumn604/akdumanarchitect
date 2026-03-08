@@ -360,7 +360,9 @@ DependencyConfig _buildDependencyConfig(String name, {required bool isDev}) {
   }
 }
 
+/// Code generator that creates a clean architecture scaffold in a Flutter project.
 class Architecture {
+  /// Generates the folder structure, core files, and configuration into the current Flutter project.
   static Future<void> createArchitecture() async {
     final String bundleId = _askForBundleId();
     final String appName = _askForAppName();

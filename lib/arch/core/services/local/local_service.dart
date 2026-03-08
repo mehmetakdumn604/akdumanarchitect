@@ -1,3 +1,4 @@
+/// Template for the generated local caching and persistence service.
 const localService = """
 import 'package:hive_flutter/hive_flutter.dart';
 // Uygulamanın local veri tabanını kullandığımız kısım

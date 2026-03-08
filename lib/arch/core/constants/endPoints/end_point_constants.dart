@@ -1,3 +1,4 @@
+/// Template for the generated API endpoint constants.
 const endPointConstants = """
 // İnternet isteği atacağımız endpointler
 class EndPointConstants {

@@ -1,3 +1,14 @@
+## [2.0.0] - (2026-03-08)
+
+* ✨ **NEW**: Interactive app name prompt at generation start—sets display name for both iOS (CFBundleName, CFBundleDisplayName) and Android (android:label)
+* ✨ **NEW**: Interactive bundle ID prompt at generation start—sets Android applicationId and iOS PRODUCT_BUNDLE_IDENTIFIER
+* ✨ **NEW**: Interactive prompts for optional integrations (local notifications, Firebase, in-app review, purchases, etc.) before installing dependencies
+* ✨ **NEW**: Conditional code generation—skipped packages are not generated in main.dart or service files
+* ✨ **NEW**: Automatically injects `flutter.assets` (icons, images, translations) into consumer pubspec.yaml idempotently
+* 🔧 **IMPROVEMENT**: iOS platform minimum version set to 15.0 by default in Podfile
+* 🐛 **FIX**: Sets BUILD_LIBRARY_FOR_DISTRIBUTION=NO to fix "Using bridging headers with module interfaces is unsupported" Xcode error
+* 📦 **IMPROVEMENT**: Android Gradle Kotlin DSL (build.gradle.kts) support for Flutter's new build format
+
 ## [1.0.7] - (2026-03-08)
 
 * ✨ **NEW**: Interactive app name prompt at generation start—sets display name for both iOS (CFBundleName, CFBundleDisplayName) and Android (android:label)

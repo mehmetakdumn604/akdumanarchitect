@@ -1,3 +1,4 @@
+/// Template for the generated base view model used by pages.
 const baseViewModel = """
 import 'package:flutter/material.dart';
 

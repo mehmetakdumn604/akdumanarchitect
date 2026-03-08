@@ -1,3 +1,4 @@
+/// Template that adds helpful context extension methods for widgets.
 const contextExtension = """
 
 import 'package:flutter/material.dart';

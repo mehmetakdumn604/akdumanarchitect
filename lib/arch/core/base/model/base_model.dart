@@ -1,3 +1,4 @@
+/// Template for the generated base model abstraction.
 const baseModel = """
 // Tüm modellerde bulunması gereken fonksiyonları içerir
 abstract class BaseModel<T> {

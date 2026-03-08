@@ -1,3 +1,4 @@
+/// Template for the generated network client and request helpers.
 const networkService = """
 // ignore_for_file: overridden_fields
 

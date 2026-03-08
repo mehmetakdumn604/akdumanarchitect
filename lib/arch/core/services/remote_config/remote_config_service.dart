@@ -1,3 +1,4 @@
+/// Template for the generated Firebase Remote Config service.
 var remoteConfigServiceString = """
 import 'dart:developer';
 

@@ -1,3 +1,4 @@
+/// Template that exports all generated constants for easy access.
 const constantExports = """
 // Constantslar için çok fazla import oluşuyordu onun yerine tek bir import var
 export '../constants/app/app_constants.dart';

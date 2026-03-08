@@ -1,3 +1,4 @@
+/// Template for the generated local storage key constants.
 const localConstants = """
 // Uygulamanın localinde bulunan veriler
 class LocalConstants {

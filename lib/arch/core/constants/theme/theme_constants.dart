@@ -1,3 +1,4 @@
+/// Template for the generated theme configuration and ThemeData.
 const themeConstants = """
 import 'package:flutter/material.dart';
 import '../../exports/constants_exports.dart';

@@ -1,3 +1,4 @@
+/// Template for the generated theme view model that toggles app themes.
 const themeViewModel = """
 import 'package:flutter/material.dart';
 import '../../core/services/theme/theme_service.dart';

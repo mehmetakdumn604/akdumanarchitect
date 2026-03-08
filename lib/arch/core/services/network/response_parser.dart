@@ -1,3 +1,4 @@
+/// Template for the generated network response parsing utilities.
 const responseParser = """
 import '../../base/model/base_model.dart';
 import 'network_service.dart';

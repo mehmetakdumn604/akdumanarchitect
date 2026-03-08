@@ -1,3 +1,4 @@
+/// Template for a mixin that shows snackbar and bottom sheet messages.
 const showBar = """
 import 'package:flutter/material.dart';
 

@@ -1,3 +1,4 @@
+/// Template for the generated example list item widget.
 const oneItem = """
 import 'package:flutter/material.dart';
 import '../../../core/exports/constants_exports.dart';

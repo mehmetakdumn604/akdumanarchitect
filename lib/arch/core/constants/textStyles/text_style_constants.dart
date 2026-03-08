@@ -1,3 +1,4 @@
+/// Template for the generated text style constants.
 const textStyleConstants = """
 import 'package:flutter/material.dart';
 import '../../exports/constants_exports.dart';

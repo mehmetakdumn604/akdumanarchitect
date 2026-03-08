@@ -1,3 +1,4 @@
+/// Template for the generated core application constants file.
 const appConstants = """
 import 'package:flutter/material.dart';
 import '/src/pages/home/viewModel/home_view_model.dart';

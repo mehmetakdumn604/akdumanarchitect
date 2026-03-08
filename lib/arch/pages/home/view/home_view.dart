@@ -1,3 +1,4 @@
+/// Template for the generated example home view widget.
 const homeView = """
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

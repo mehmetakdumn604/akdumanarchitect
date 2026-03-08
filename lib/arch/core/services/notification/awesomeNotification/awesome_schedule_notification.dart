@@ -1,3 +1,4 @@
+/// Template for the generated Awesome Notifications scheduling helpers.
 const awesomeScheduleNotification = """
 import 'package:awesome_notifications/awesome_notifications.dart';
 import '../../../constants/local/local_constants.dart';

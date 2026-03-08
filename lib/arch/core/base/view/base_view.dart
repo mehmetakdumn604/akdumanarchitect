@@ -1,3 +1,4 @@
+/// Template for the generated base view widget.
 const baseView = """
 // ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/material.dart';

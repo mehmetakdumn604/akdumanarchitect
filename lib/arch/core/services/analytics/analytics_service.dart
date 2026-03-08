@@ -1,3 +1,4 @@
+/// Template for the generated analytics helper that wraps Firebase and tracking.
 var analyticsService = """
 import 'dart:developer';
 
@@ -33,7 +34,7 @@ class AnalyticsHelper {
   final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   // final FacebookAppEvents facebookAppEvents = FacebookAppEvents();
 
-  void sendEvent(final String event, {final Map<String, Object?>? extra}) {
+  void sendEvent(final String event, {final Map<String, Object>? extra}) {
     analytics.logEvent(name: event, parameters: extra);
     // facebookAppEvents.logEvent(name: event, parameters: extra);
     log('Event: \$event, extra: \$extra');

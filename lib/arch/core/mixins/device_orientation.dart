@@ -1,3 +1,4 @@
+/// Template for a mixin that locks and restores device orientations.
 const deviceOrientation = """
 import 'package:flutter/services.dart';
 

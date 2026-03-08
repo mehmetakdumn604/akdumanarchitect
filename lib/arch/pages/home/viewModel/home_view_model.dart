@@ -1,3 +1,4 @@
+/// Template for the generated example home view model.
 const homeViewModel = """
 import 'package:flutter/material.dart';
 import '../../../core/base/viewModel/base_view_model.dart';

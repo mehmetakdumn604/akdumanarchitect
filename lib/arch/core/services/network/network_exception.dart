@@ -1,3 +1,4 @@
+/// Template for the generated network exception and error handling helpers.
 const networkException = """
 import 'package:dio/dio.dart';
 

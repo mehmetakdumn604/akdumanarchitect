@@ -1,3 +1,4 @@
+/// Template for the generated Firebase Messaging notification service.
 const firebaseMessagingService = """
 import 'dart:convert';
 import 'dart:io';

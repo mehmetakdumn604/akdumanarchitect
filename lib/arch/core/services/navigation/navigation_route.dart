@@ -1,3 +1,4 @@
+/// Template that defines the generated navigation route table.
 const navigationRoute = """
 import 'package:flutter/material.dart';
 import '../../../pages/home/view/home_view.dart';

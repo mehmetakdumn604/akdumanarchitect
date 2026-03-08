@@ -1,3 +1,4 @@
+/// Template for the generated in-app purchase manager using RevenueCat.
 var purchaseManager = """
 import 'dart:developer';
 import 'dart:io';

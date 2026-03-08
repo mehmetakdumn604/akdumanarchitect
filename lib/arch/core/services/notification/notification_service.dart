@@ -1,3 +1,4 @@
+/// Template for the high-level notification service used by the app.
 const notificationService = """
 import 'dart:convert';
 import '../../constants/notification/notification_constants.dart';

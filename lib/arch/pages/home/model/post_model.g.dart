@@ -1,3 +1,4 @@
+/// Template for the generated JSON serialization logic for the post model.
 const postModelG = """
 part of 'post_model.dart';
 

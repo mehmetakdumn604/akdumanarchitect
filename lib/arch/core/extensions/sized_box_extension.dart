@@ -1,3 +1,4 @@
+/// Template that adds extension getters for common SizedBox gaps.
 const sizedBoxExtension = """
 import 'package:flutter/material.dart';
 

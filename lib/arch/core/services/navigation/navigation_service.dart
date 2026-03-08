@@ -1,3 +1,4 @@
+/// Template for the generated navigation service that wraps Navigator.
 const navigationService = """
 import 'package:flutter/material.dart';
 
