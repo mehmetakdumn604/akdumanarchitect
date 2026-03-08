@@ -1,6 +1,6 @@
 name: makdumanarchitect
 description: A Flutter generator that creates a clean architecture project structure with preconfigured services and best-practice defaults.
-version: 2.0.0
+version: 2.0.0+1
 homepage: https://github.com/mehmetakdumn604/akdumanarchitect
 repository: https://github.com/mehmetakdumn604/akdumanarchitect
 documentation: https://github.com/mehmetakdumn604/akdumanarchitect#readme

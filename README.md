@@ -27,7 +27,7 @@ Add `makdumanarchitect` to your `pubspec.yaml`:
 
 ```yaml
 dev_dependencies:
-  makdumanarchitect: ^2.0.0
+  makdumanarchitect: ^2.0.0+1
 ```
 
 Run:

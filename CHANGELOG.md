@@ -1,5 +1,6 @@
-## [2.0.0] - (2026-03-08)
+## [2.0.0+1] - (2026-03-08)
 
+* 🐛 **FIX**: Improved dependency installation flow for dev_dependencies to better handle version conflicts on newer Dart SDKs.
 * ✨ **NEW**: Interactive app name prompt at generation start—sets display name for both iOS (CFBundleName, CFBundleDisplayName) and Android (android:label)
 * ✨ **NEW**: Interactive bundle ID prompt at generation start—sets Android applicationId and iOS PRODUCT_BUNDLE_IDENTIFIER
 * ✨ **NEW**: Interactive prompts for optional integrations (local notifications, Firebase, in-app review, purchases, etc.) before installing dependencies
