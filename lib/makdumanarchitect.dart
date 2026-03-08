@@ -29,7 +29,6 @@ import 'arch/core/mixins/show_bar.dart';
 import 'arch/core/services/local/local_service.dart';
 import 'arch/core/services/navigation/navigation_route.dart';
 import 'arch/core/services/navigation/navigation_service.dart';
-import 'arch/main.dart';
 import 'arch/pages/home/model/post_model.dart';
 import 'arch/pages/home/model/post_model.g.dart';
 import 'arch/pages/home/view/home_view.dart';
@@ -154,11 +153,217 @@ package_rename_config:
     app_name: # (String) The display name of the ios app
     bundle_name: # (String) The bundle name of the ios app
     package_name: # (String) The product bundle identifier of the ios app
-
+    
   """;
+
+class DependencyConfig {
+  const DependencyConfig({
+    required this.name,
+    required this.isDev,
+    required this.isCore,
+    required this.description,
+  });
+
+  final String name;
+  final bool isDev;
+  final bool isCore;
+  final String description;
+}
+
+/// Tracks which optional packages were selected (key = offered name, value = package to add or null if skipped).
+class SelectedPackages {
+  const SelectedPackages({required this.optionalChoices});
+
+  final Map<String, String?> optionalChoices;
+
+  bool has(String packageName) => optionalChoices[packageName] != null;
+}
+
+DependencyConfig _buildDependencyConfig(String name, {required bool isDev}) {
+  switch (name) {
+    case 'provider':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'State management with Provider.',
+      );
+    case 'dio':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'HTTP client for network requests.',
+      );
+    case 'hive_flutter':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'Local storage with Hive.',
+      );
+    case 'connectivity_plus':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'Network connectivity status.',
+      );
+    case 'json_annotation':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'Model annotations for JSON serialization.',
+      );
+    case 'flutter_easyloading':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'Loading indicator widgets.',
+      );
+    case 'flutter_screenutil':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'Responsive layout utilities.',
+      );
+    case 'flutter_svg':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'SVG image rendering.',
+      );
+    case 'build_runner':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'Code generation runner.',
+      );
+    case 'flutter_lints':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'Recommended lints for Flutter projects.',
+      );
+    case 'json_serializable':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'JSON serialization code generator.',
+      );
+    case 'flutter_gen':
+    case 'flutter_gen_runner':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'Asset generation utilities.',
+      );
+    case 'hive_generator':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'Hive type adapter generator.',
+      );
+    case 'easy_localization':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: false,
+        description: 'Localization and translation support.',
+      );
+    case 'awesome_notifications':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: false,
+        description: 'Local notification management.',
+      );
+    case 'firebase_messaging':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: false,
+        description: 'Firebase Cloud Messaging (push notifications).',
+      );
+    case 'in_app_review':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: false,
+        description: 'In-app review prompts.',
+      );
+    case 'firebase_remote_config':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: false,
+        description: 'Remote configuration from Firebase.',
+      );
+    case 'firebase_crashlytics':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: false,
+        description: 'Crash reporting with Firebase Crashlytics.',
+      );
+    case 'firebase_analytics':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: false,
+        description: 'Analytics with Firebase Analytics.',
+      );
+    case 'app_tracking_transparency':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: false,
+        description: 'App tracking transparency (iOS ATT).',
+      );
+    case 'purchases_flutter':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: false,
+        description: 'In-app purchases and subscriptions.',
+      );
+    case 'flutter_native_splash':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: false,
+        description: 'Native splash screen generation.',
+      );
+    case 'flutter_launcher_icons':
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: false,
+        description: 'App launcher icon generation.',
+      );
+    default:
+      return DependencyConfig(
+        name: name,
+        isDev: isDev,
+        isCore: true,
+        description: 'Dependency used by the generated architecture.',
+      );
+  }
+}
 
 class Architecture {
   static Future<void> createArchitecture() async {
+    final String bundleId = _askForBundleId();
+    final String appName = _askForAppName();
     const srcFolder = 'lib/src';
     await Directory(srcFolder).create();
     const assetsFolder = 'assets/';
@@ -182,44 +387,51 @@ class Architecture {
         tempLines[i] = '        minSdk = 21';
       } else if (lines[i].contains('minSdkVersion')) {
         tempLines[i] = '        minSdkVersion 21';
+      } else if (lines[i].contains('applicationId =')) {
+        tempLines[i] = '        applicationId = "$bundleId"';
+      } else if (lines[i].contains('applicationId "')) {
+        tempLines[i] = '        applicationId "$bundleId"';
       }
     }
     await androidBuildFile.writeAsString(tempLines.join('\n'));
 
-    const podfileFile = './ios/Podfile';
-    var podfileLines = await File(podfileFile).readAsLines();
-    var tempPodfileLines = [];
-    tempPodfileLines.addAll(podfileLines);
-    for (int i = 0; i < podfileLines.length; i++) {
-      if (podfileLines[i].contains('#platform :ios, \'12.0\'')) {
-        tempPodfileLines[i] = 'platform :ios, \'13.0\'';
-        break;
+    await _applyAndroidAppName(appName);
+    await _applyIosBundleIdAndFixBridgingHeaderError(bundleId, appName);
+
+    const String podfileFile = './ios/Podfile';
+    final File podfile = File(podfileFile);
+    if (podfile.existsSync()) {
+      final List<String> podfileLines = await podfile.readAsLines();
+      final List<String> tempPodfileLines = List<String>.from(podfileLines);
+      for (int i = 0; i < podfileLines.length; i++) {
+        final String trimmed = podfileLines[i].trim();
+        if (trimmed.startsWith('# platform :ios') ||
+            trimmed.startsWith('platform :ios')) {
+          tempPodfileLines[i] = "platform :ios, '15.0'";
+          break;
+        }
       }
+      await podfile.writeAsString(tempPodfileLines.join('\n'));
     }
 
-    await File(podfileFile).writeAsString(tempPodfileLines.join('\n'));
-
-    await changePubspecYaml();
-    await createTranslationJsons();
+    final SelectedPackages selected = await changePubspecYaml();
+    await createTranslationJsons(selected);
     await createCommon();
-    await createCore();
+    await createCore(selected);
     await createPages();
-    await createMain();
+    await createMain(selected);
     await createScripts();
   }
 
-  static Future<void> changePubspecYaml() async {
-    // Parse packages from pubspec string
-    final List<String> dependencies = [];
-    final List<String> devDependencies = [];
+  static Future<SelectedPackages> changePubspecYaml() async {
+    final List<DependencyConfig> dependencyConfigs = <DependencyConfig>[];
 
     bool inDependencies = false;
     bool inDevDependencies = false;
 
-    for (final line in pubspec.split('\n')) {
-      final trimmedLine = line.trim();
+    for (final String line in pubspec.split('\n')) {
+      final String trimmedLine = line.trim();
 
-      // Check for section headers
       if (trimmedLine == 'dependencies:') {
         inDependencies = true;
         inDevDependencies = false;
@@ -232,7 +444,6 @@ class Architecture {
         continue;
       }
 
-      // Stop parsing when we hit non-dependency sections (top level, no indentation)
       if (!line.startsWith(' ') &&
           !line.startsWith('\t') &&
           trimmedLine.endsWith(':') &&
@@ -243,41 +454,32 @@ class Architecture {
         continue;
       }
 
-      // Skip empty lines and comments
       if (trimmedLine.isEmpty || trimmedLine.startsWith('#')) {
         continue;
       }
 
-      // Skip lines that are not in a dependency section
       if (!inDependencies && !inDevDependencies) {
         continue;
       }
 
-      // Skip flutter SDK dependencies
-      // Check for 'sdk:' which indicates SDK dependency
       if (trimmedLine.contains('sdk:')) {
         continue;
       }
 
-      // Skip 'flutter:' line itself (it's a section, not a package)
       if (trimmedLine == 'flutter:') {
         continue;
       }
 
-      // Skip flutter_test in dev_dependencies
       if (trimmedLine.startsWith('flutter_test:')) {
         continue;
       }
 
-      // Extract package name (format: package_name: version)
-      // Only process lines that have a colon and look like package declarations
       if (trimmedLine.contains(':')) {
-        final colonIndex = trimmedLine.indexOf(':');
+        final int colonIndex = trimmedLine.indexOf(':');
         if (colonIndex > 0) {
-          final packageName = trimmedLine.substring(0, colonIndex).trim();
-          final versionPart = trimmedLine.substring(colonIndex + 1).trim();
+          final String packageName = trimmedLine.substring(0, colonIndex).trim();
+          final String versionPart = trimmedLine.substring(colonIndex + 1).trim();
 
-          // Skip invalid package names
           if (packageName.isEmpty ||
               packageName == 'flutter' ||
               packageName == 'flutter_test' ||
@@ -285,66 +487,216 @@ class Architecture {
             continue;
           }
 
-          // Validate package name format (should be lowercase with _ or -)
           if (!RegExp(r'^[a-z][a-z0-9_\-]*$').hasMatch(packageName)) {
             continue;
           }
 
-          // Skip if version is empty, contains 'sdk', or is just whitespace
-          if (versionPart.isEmpty || versionPart.contains('sdk') || versionPart.trim().isEmpty) {
+          if (versionPart.isEmpty ||
+              versionPart.contains('sdk') ||
+              versionPart.trim().isEmpty) {
             continue;
           }
 
-          // Only add packages with valid version constraints (^, ~, or version number)
           if (versionPart.startsWith('^') ||
               versionPart.startsWith('~') ||
               RegExp(r'^\d+\.\d+').hasMatch(versionPart)) {
-            if (inDependencies) {
-              dependencies.add(packageName);
-            } else if (inDevDependencies) {
-              devDependencies.add(packageName);
-            }
+            final DependencyConfig config = _buildDependencyConfig(
+              packageName,
+              isDev: inDevDependencies,
+            );
+            dependencyConfigs.add(config);
           }
         }
       }
     }
 
-    // Filter out any empty values
-    dependencies.removeWhere((p) => p.isEmpty);
-    devDependencies.removeWhere((p) => p.isEmpty);
+    final List<String> dependencies = <String>[];
+    final List<String> devDependencies = <String>[];
+    final Map<String, String?> optionalChoices = <String, String?>{};
 
-    // Debug: print parsed packages
-    print('Parsed dependencies: ${dependencies.join(', ')}');
-    print('Parsed dev_dependencies: ${devDependencies.join(', ')}');
+    for (final DependencyConfig config in dependencyConfigs) {
+      if (!config.isCore) {
+        continue;
+      }
 
-    // Run flutter pub add for dependencies
-    if (dependencies.isNotEmpty) {
-      final result = await Process.run(
+      if (config.isDev) {
+        devDependencies.add(config.name);
+      } else {
+        dependencies.add(config.name);
+      }
+    }
+
+    for (final DependencyConfig config in dependencyConfigs) {
+      if (config.isCore) {
+        continue;
+      }
+
+      final String? selectedName = _askUserForOptionalDependency(config);
+      optionalChoices[config.name] = selectedName;
+      if (selectedName == null || selectedName.isEmpty) {
+        continue;
+      }
+
+      if (config.isDev) {
+        devDependencies.add(selectedName);
+      } else {
+        dependencies.add(selectedName);
+      }
+    }
+
+    final List<String> uniqueDependencies = dependencies.toSet().toList();
+    final List<String> uniqueDevDependencies = devDependencies.toSet().toList();
+
+    // ignore: avoid_print
+    print('Parsed dependencies: ${uniqueDependencies.join(', ')}');
+    // ignore: avoid_print
+    print('Parsed dev_dependencies: ${uniqueDevDependencies.join(', ')}');
+
+    if (uniqueDependencies.isNotEmpty) {
+      final ProcessResult result = await Process.run(
         'flutter',
-        ['pub', 'add', ...dependencies],
+        <String>['pub', 'add', ...uniqueDependencies],
         workingDirectory: Directory.current.path,
       );
 
       if (result.exitCode != 0) {
+        // ignore: avoid_print
         print('Error adding dependencies: ${result.stderr}');
       }
     }
 
-    // Run flutter pub add --dev for dev_dependencies
-    if (devDependencies.isNotEmpty) {
-      final result = await Process.run(
+    if (uniqueDevDependencies.isNotEmpty) {
+      final ProcessResult result = await Process.run(
         'flutter',
-        ['pub', 'add', '--dev', ...devDependencies],
+        <String>['pub', 'add', '--dev', ...uniqueDevDependencies],
         workingDirectory: Directory.current.path,
       );
 
       if (result.exitCode != 0) {
+        // ignore: avoid_print
         print('Error adding dev dependencies: ${result.stderr}');
       }
     }
+
+    await _ensureFlutterAssetsInPubspec();
+    return SelectedPackages(optionalChoices: optionalChoices);
   }
 
-  static Future<void> createTranslationJsons() async {
+  static Future<void> _ensureFlutterAssetsInPubspec() async {
+    final File pubspecFile = File('pubspec.yaml');
+    if (!pubspecFile.existsSync()) {
+      return;
+    }
+
+    final List<String> lines = await pubspecFile.readAsLines();
+    final List<String> updatedLines = List<String>.from(lines);
+
+    const String flutterHeader = 'flutter:';
+    const String assetsHeader = '  assets:';
+    const List<String> desiredAssets = <String>[
+      '    - assets/icons/',
+      '    - assets/images/',
+      '    - assets/translations/',
+    ];
+
+    final int flutterIndex = updatedLines.indexWhere(
+      (String line) => line.trim() == flutterHeader,
+    );
+
+    if (flutterIndex == -1) {
+      updatedLines.add('');
+      updatedLines.add(flutterHeader);
+      updatedLines.add(assetsHeader);
+      updatedLines.addAll(desiredAssets);
+      await pubspecFile.writeAsString(updatedLines.join('\n'));
+      return;
+    }
+
+    int insertIndex = flutterIndex + 1;
+    int index = flutterIndex + 1;
+    int assetsIndex = -1;
+
+    while (index < updatedLines.length) {
+      final String line = updatedLines[index];
+      if (!line.startsWith(' ') && line.trim().isNotEmpty) {
+        insertIndex = index;
+        break;
+      }
+
+      if (line.trim() == 'assets:' && line.startsWith('  ')) {
+        assetsIndex = index;
+      }
+
+      index++;
+    }
+
+    final Set<String> existingAssets = <String>{};
+
+    if (assetsIndex != -1) {
+      int assetLineIndex = assetsIndex + 1;
+      while (assetLineIndex < updatedLines.length &&
+          updatedLines[assetLineIndex].startsWith('    - ')) {
+        existingAssets.add(updatedLines[assetLineIndex].trim());
+        assetLineIndex++;
+      }
+
+      final List<String> missingAssets = <String>[];
+      for (final String assetEntry in desiredAssets) {
+        if (!existingAssets.contains(assetEntry.trim())) {
+          missingAssets.add(assetEntry);
+        }
+      }
+
+      if (missingAssets.isEmpty) {
+        return;
+      }
+
+      updatedLines.insertAll(assetLineIndex, missingAssets);
+      await pubspecFile.writeAsString(updatedLines.join('\n'));
+      return;
+    }
+
+    updatedLines.insert(insertIndex, assetsHeader);
+    updatedLines.insertAll(insertIndex + 1, desiredAssets);
+    await pubspecFile.writeAsString(updatedLines.join('\n'));
+  }
+
+  static String? _askUserForOptionalDependency(DependencyConfig config) {
+    // ignore: avoid_print
+    print('');
+    // ignore: avoid_print
+    print(
+      'Package: ${config.name} (${config.isDev ? 'dev' : 'runtime'})\n'
+      'Description: ${config.description}',
+    );
+    // ignore: avoid_print
+    print(
+      'Add this package? [y]es / [n]o / [c]ustom package instead:',
+    );
+
+    final String answer = stdin.readLineSync()?.trim().toLowerCase() ?? '';
+
+    if (answer == 'n' || answer == 'no') {
+      return null;
+    }
+
+    if (answer == 'c' || answer == 'custom') {
+      // ignore: avoid_print
+      print(
+        'Enter the package to add (for example `easy_localization` or `easy_localization:^3.0.7+1`).\n'
+        'Leave empty to skip:',
+      );
+      final String custom = stdin.readLineSync()?.trim() ?? '';
+      if (custom.isEmpty) {
+        return null;
+      }
+      return custom;
+    }
+
+    return config.name;
+  }
+
+  static Future<void> createTranslationJsons(SelectedPackages selected) async {
     const translationsFolder = 'assets/translations/';
 
     // viewModels
@@ -390,7 +742,7 @@ class Architecture {
     await Directory(models).create();
   }
 
-  static Future<void> createCore() async {
+  static Future<void> createCore(SelectedPackages selected) async {
     const core = 'lib/src/core';
     await Directory(core).create();
 
@@ -486,10 +838,12 @@ class Architecture {
     const services = '$core/services';
     await Directory(services).create();
 
-    // analytics service
-    const analyticsServicePath = '$services/analytics';
-    await Directory(analyticsServicePath).create();
-    await File('$analyticsServicePath/analytics_service.dart').writeAsString(analyticsService);
+    // analytics service (firebase_analytics)
+    if (selected.has('firebase_analytics')) {
+      const analyticsServicePath = '$services/analytics';
+      await Directory(analyticsServicePath).create();
+      await File('$analyticsServicePath/analytics_service.dart').writeAsString(analyticsService);
+    }
 
     // connection service
     /*
@@ -518,16 +872,20 @@ class Architecture {
     await File('$navigationServiceI/navigation_service.dart').writeAsString(navigationService);
     await File('$navigationServiceI/navigation_route.dart').writeAsString(navigationRoute);
 
-    // purchase service
-    const purchaseServicePath = '$services/purchase';
-    await Directory(purchaseServicePath).create();
-    await File('$purchaseServicePath/purchase_manager.dart').writeAsString(purchaseManager);
+    // purchase service (purchases_flutter)
+    if (selected.has('purchases_flutter')) {
+      const purchaseServicePath = '$services/purchase';
+      await Directory(purchaseServicePath).create();
+      await File('$purchaseServicePath/purchase_manager.dart').writeAsString(purchaseManager);
+    }
 
-    // remote config service
-    const remoteConfigService = '$services/remote_config';
-    await Directory(remoteConfigService).create();
-    await File('$remoteConfigService/remote_config_service.dart')
-        .writeAsString(remoteConfigServiceString);
+    // remote config service (firebase_remote_config)
+    if (selected.has('firebase_remote_config')) {
+      const remoteConfigService = '$services/remote_config';
+      await Directory(remoteConfigService).create();
+      await File('$remoteConfigService/remote_config_service.dart')
+          .writeAsString(remoteConfigServiceString);
+    }
 
     // // theme service
     // const themeServiceI = '$services/theme';
@@ -565,13 +923,282 @@ class Architecture {
     await File('$homeWidget/one_item.dart').writeAsString(oneItem);
   }
 
-  static Future<void> createMain() async {
-    await File('lib/main.dart').writeAsString(mainPage);
+  static Future<void> createMain(SelectedPackages selected) async {
+    final String content = _buildMainPageContent(selected);
+    await File('lib/main.dart').writeAsString(content);
+  }
+
+  static String _buildMainPageContent(SelectedPackages selected) {
+    final bool useEasyLocalization = selected.has('easy_localization');
+    final bool usePurchaseManager = selected.has('purchases_flutter');
+
+    final StringBuffer imports = StringBuffer()
+      ..writeln("import 'package:flutter/material.dart';")
+      ..writeln("import 'package:flutter_easyloading/flutter_easyloading.dart';")
+      ..writeln("import 'package:flutter_screenutil/flutter_screenutil.dart';")
+      ..writeln("import 'package:provider/provider.dart';")
+      ..writeln()
+      ..writeln("import 'src/core/exports/constants_exports.dart';")
+      ..writeln("import 'src/core/services/local/local_service.dart';")
+      ..writeln("import 'src/core/services/navigation/navigation_route.dart';")
+      ..writeln("import 'src/core/services/navigation/navigation_service.dart';");
+    if (useEasyLocalization) {
+      imports.writeln("import 'package:easy_localization/easy_localization.dart';");
+    }
+    if (usePurchaseManager) {
+      imports.writeln("import 'src/core/services/purchase/purchase_manager.dart';");
+    }
+
+    final StringBuffer mainBody = StringBuffer()
+      ..writeln('void main() async {')
+      ..writeln('  WidgetsFlutterBinding.ensureInitialized();');
+    if (useEasyLocalization) {
+      mainBody.writeln('  await EasyLocalization.ensureInitialized();');
+    }
+    mainBody.writeln('  await LocalCaching.init();');
+    if (usePurchaseManager) {
+      mainBody.writeln('  await PurchaseManager.initRevenueCat();');
+    }
+    mainBody.writeln('  runApp(');
+
+    if (useEasyLocalization) {
+      mainBody.writeln('    EasyLocalization(');
+      mainBody.writeln('      supportedLocales: AppConstants.supportedLocales,');
+      mainBody.writeln('      path: AppConstants.localePath,');
+      mainBody.writeln('      fallbackLocale: AppConstants.fallbackLocale,');
+      mainBody.writeln('      saveLocale: true,');
+      mainBody.writeln('      useOnlyLangCode: true,');
+      mainBody.writeln('      child: MultiProvider(');
+    } else {
+      mainBody.writeln('    MultiProvider(');
+    }
+    mainBody.writeln('        providers: AppConstants.defaultProviders,');
+    mainBody.writeln('        child: const MyApp(),');
+    mainBody.writeln('      ),');
+    if (useEasyLocalization) {
+      mainBody.writeln('    ),');
+    }
+    mainBody.writeln('  );');
+    mainBody.writeln();
+    mainBody.writeln('  configLoading();');
+    mainBody.writeln('}');
+
+    final StringBuffer materialAppParams = StringBuffer()
+      ..writeln('          title: AppConstants.appName,')
+      ..writeln('          theme: ThemeConstants.lightTheme,')
+      ..writeln('          darkTheme: ThemeConstants.darkTheme,')
+      ..writeln('          debugShowCheckedModeBanner: false,')
+      ..writeln('          initialRoute: NavigationConstants.home,')
+      ..writeln('          onGenerateRoute: NavigationRoute.instance.generateRoute,')
+      ..writeln('          navigatorKey: NavigationService.instance.navigatorKey,');
+    if (useEasyLocalization) {
+      materialAppParams.writeln('          supportedLocales: context.supportedLocales,');
+      materialAppParams.writeln('          locale: context.locale,');
+      materialAppParams.writeln('          localizationsDelegates: context.localizationDelegates,');
+    }
+    materialAppParams.writeln('          builder: EasyLoading.init(),');
+
+    return '''
+$imports
+
+$mainBody
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: ScreenUtilInit(
+        designSize: const Size(430, 932), // TODO change with real design size
+        child: MaterialApp(
+$materialAppParams
+        ),
+      ),
+    );
+  }
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..animationDuration = const Duration(milliseconds: 1000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..textColor = Colors.white
+    ..userInteractions = false
+    ..maskType = EasyLoadingMaskType.black
+    ..dismissOnTap = false;
+}
+''';
   }
 
   static Future<void> createScripts() async {
     const scripts = 'scripts';
     await Directory(scripts).create();
     await File('$scripts/build.sh').writeAsString(script);
+  }
+
+  static String _askForBundleId() {
+    // ignore: avoid_print
+    print('');
+    // ignore: avoid_print
+    print(
+      'Enter your app Bundle ID / Application ID (e.g. com.company.appname):',
+    );
+    // ignore: avoid_print
+    print('Leave empty to keep default (com.example.example):');
+    final String input = stdin.readLineSync()?.trim() ?? '';
+    if (input.isEmpty) {
+      return 'com.example.example';
+    }
+    return input;
+  }
+
+  static String _askForAppName() {
+    // ignore: avoid_print
+    print('');
+    // ignore: avoid_print
+    print('Enter your app name (display name for iOS and Android):');
+    // ignore: avoid_print
+    print('Leave empty to keep default (AppName):');
+    final String input = stdin.readLineSync()?.trim() ?? '';
+    if (input.isEmpty) {
+      return 'AppName';
+    }
+    return input;
+  }
+
+  static Future<void> _applyIosBundleIdAndFixBridgingHeaderError(
+    String bundleId,
+    String appName,
+  ) async {
+    await _applyIosBundleId(
+      pbxFile: File('ios/Runner.xcodeproj/project.pbxproj'),
+      bundleId: bundleId,
+    );
+    await _applyIosAppName(appName);
+    await _addBuildLibraryForDistributionFix();
+    await _addPodfileBuildLibraryFix();
+  }
+
+  static Future<void> _applyIosBundleId({
+    required File pbxFile,
+    required String bundleId,
+  }) async {
+    if (!pbxFile.existsSync()) {
+      return;
+    }
+    final List<String> lines = await pbxFile.readAsLines();
+    final List<String> updated = <String>[];
+    for (final String line in lines) {
+      if (line.contains('PRODUCT_BUNDLE_IDENTIFIER = ')) {
+        updated.add(
+          line.replaceFirst(
+            RegExp(r'PRODUCT_BUNDLE_IDENTIFIER = [^;]+'),
+            'PRODUCT_BUNDLE_IDENTIFIER = $bundleId',
+          ),
+        );
+        continue;
+      }
+      updated.add(line);
+    }
+    await pbxFile.writeAsString(updated.join('\n'));
+  }
+
+  static Future<void> _addBuildLibraryForDistributionFix() async {
+    final File pbxFile = File('ios/Runner.xcodeproj/project.pbxproj');
+    if (!pbxFile.existsSync()) {
+      return;
+    }
+    String content = await pbxFile.readAsString();
+    if (content.contains('BUILD_LIBRARY_FOR_DISTRIBUTION')) {
+      return;
+    }
+    content = content.replaceAll(
+      'SWIFT_VERSION = 5.0;',
+      'BUILD_LIBRARY_FOR_DISTRIBUTION = NO;\n\t\t\t\t\t\tSWIFT_VERSION = 5.0;',
+    );
+    await pbxFile.writeAsString(content);
+  }
+
+  static Future<void> _applyAndroidAppName(String appName) async {
+    final File manifestFile = File('android/app/src/main/AndroidManifest.xml');
+    if (!manifestFile.existsSync()) {
+      return;
+    }
+
+    final List<String> lines = await manifestFile.readAsLines();
+    final List<String> updated = <String>[];
+
+    for (final String line in lines) {
+      if (line.contains('android:label=')) {
+        updated.add(
+          line.replaceFirst(
+            RegExp(r'android:label=\"[^\"]*\"'),
+            'android:label=\"$appName\"',
+          ),
+        );
+        continue;
+      }
+      updated.add(line);
+    }
+
+    await manifestFile.writeAsString(updated.join('\n'));
+  }
+
+  static Future<void> _applyIosAppName(String appName) async {
+    final File infoPlist = File('ios/Runner/Info.plist');
+    if (!infoPlist.existsSync()) {
+      return;
+    }
+    String content = await infoPlist.readAsString();
+
+    if (content.contains('<key>CFBundleName</key>')) {
+      content = content.replaceFirst(
+        RegExp(r'<key>CFBundleName</key>\s*<string>[^<]*</string>'),
+        '<key>CFBundleName</key>\n\t<string>$appName</string>',
+      );
+    }
+
+    if (content.contains('<key>CFBundleDisplayName</key>')) {
+      content = content.replaceFirst(
+        RegExp(r'<key>CFBundleDisplayName</key>\s*<string>[^<]*</string>'),
+        '<key>CFBundleDisplayName</key>\n\t<string>$appName</string>',
+      );
+    } else {
+      content = content.replaceFirst(
+        '</dict>',
+        '\t<key>CFBundleDisplayName</key>\n'
+        '\t<string>$appName</string>\n'
+        '</dict>',
+      );
+    }
+
+    await infoPlist.writeAsString(content);
+  }
+
+  static Future<void> _addPodfileBuildLibraryFix() async {
+    final File podfile = File('ios/Podfile');
+    if (!podfile.existsSync()) {
+      return;
+    }
+    String content = await podfile.readAsString();
+    if (content.contains("BUILD_LIBRARY_FOR_DISTRIBUTION")) {
+      return;
+    }
+    const String toInsert =
+        '\n    target.build_configurations.each do |config|\n'
+        '      config.build_settings[\'BUILD_LIBRARY_FOR_DISTRIBUTION\'] = \'NO\'\n'
+        '    end';
+    const String search = 'flutter_additional_ios_build_settings(target)';
+    final String replacement = search + toInsert;
+    if (content.contains(search)) {
+      content = content.replaceFirst(search, replacement);
+      await podfile.writeAsString(content);
+    }
   }
 }

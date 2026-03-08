@@ -1,10 +1,19 @@
+## [1.0.7] - (2026-03-08)
+
+* ✨ **NEW**: Interactive app name prompt at generation start—sets display name for both iOS (CFBundleName, CFBundleDisplayName) and Android (android:label)
+* 🔧 **IMPROVEMENT**: iOS platform minimum version set to 15.0 by default in Podfile
+* ✨ **NEW**: Automatically injects `flutter.assets` section (icons, images, translations) into the consumer `pubspec.yaml` in an idempotent way
+* ✨ **NEW**: Interactive prompts in the terminal for optional integrations (local notifications, Firebase services, in-app review, purchases, etc.) before installing dependencies with `flutter pub add`
+* ✨ **NEW**: Generated code is conditional on package selection—skipped packages are not generated (e.g. no EasyLocalization/PurchaseManager in main.dart, no analytics/purchase/remote_config services when not selected)
+* ✨ **NEW**: Interactive bundle ID prompt at generation start—sets Android applicationId and iOS PRODUCT_BUNDLE_IDENTIFIER
+* 🐛 **FIX**: Sets BUILD_LIBRARY_FOR_DISTRIBUTION=NO in iOS project and Podfile to fix "Using bridging headers with module interfaces is unsupported" Xcode error
+
 ## [1.0.6] - (2026-03-08)
 
 * ✨ **NEW**: Android Gradle Kotlin DSL (build.gradle.kts) support for Flutter's new build format
 * 🔧 **IMPROVEMENT**: Example app migrated to build.gradle.kts, settings.gradle.kts with new Flutter plugin loader
 * 🔧 **IMPROVEMENT**: `createArchitecture` now supports both build.gradle and build.gradle.kts for minSdk configuration
 * 📦 **IMPROVEMENT**: Compatible with Flutter 3.24+ Android Gradle structure
-
 ## [1.0.3] - (2025-11-29)
 
 * ✨ **NEW**: Automatic package installation using `flutter pub add` command

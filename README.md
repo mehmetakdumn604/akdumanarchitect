@@ -27,7 +27,7 @@ Add `makdumanarchitect` to your `pubspec.yaml`:
 
 ```yaml
 dev_dependencies:
-  makdumanarchitect: ^1.0.6
+  makdumanarchitect: ^1.0.7
 ```
 
 Run:
@@ -172,6 +172,61 @@ flutter pub add --dev build_runner flutter_lints json_serializable ...
 ```
 
 This ensures all packages are installed with versions compatible with your Flutter SDK version.
+
+## Customization ⚙️
+
+### Assets section in pubspec.yaml
+
+When you run the generator, it will make sure your project `pubspec.yaml` contains the following under `flutter.assets` (if they are missing, they are added; if they already exist, they are left untouched):
+
+```yaml
+flutter:
+  assets:
+    - assets/icons/
+    - assets/images/
+    - assets/translations/
+```
+
+This behavior is **idempotent**, so you can safely re-run the generator without duplicating entries.
+
+### Interactive optional dependencies
+
+Some integrations are optional (for example Firebase, notifications, in-app review, purchases, localization).  
+For each of these, the generator will ask you in the terminal:
+
+```text
+Package: easy_localization (runtime)
+Description: Localization and translation support.
+Add this package? [y]es / [n]o / [c]ustom package instead:
+```
+
+- If you answer **y** or just press Enter, the package is added.
+- If you answer **n**, that package is skipped.
+- If you answer **c**, you can type your own package (for example another localization package) and that will be added instead.
+
+### Conditional code generation
+
+The generated project structure and code depend on your package choices:
+
+- **easy_localization** not selected → `main.dart` is generated without `EasyLocalization` wrapper and locale-related `MaterialApp` parameters.
+- **purchases_flutter** not selected → `main.dart` omits `PurchaseManager` import and `initRevenueCat()`, and the `purchase_manager` service is not created.
+- **firebase_analytics** not selected → the `analytics` service folder and `analytics_service.dart` are not created.
+- **firebase_remote_config** not selected → the `remote_config` service folder and `remote_config_service.dart` are not created.
+
+### Bundle ID / Application ID
+
+At the start of generation, you are prompted for your app Bundle ID (iOS) / Application ID (Android):
+
+```text
+Enter your app Bundle ID / Application ID (e.g. com.company.appname):
+Leave empty to keep default (com.example.example):
+```
+
+The value is applied to both `android/app/build.gradle.kts` (`applicationId`) and `ios/Runner.xcodeproj/project.pbxproj` (`PRODUCT_BUNDLE_IDENTIFIER`).
+
+### iOS Xcode 16+ fix
+
+The generator sets `BUILD_LIBRARY_FOR_DISTRIBUTION=NO` in the iOS project and Podfile to avoid the Xcode error: *"Using bridging headers with module interfaces is unsupported"*.
 
 ## Usage Examples 💡
 
