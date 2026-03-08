@@ -91,7 +91,7 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^2.4.5
   flutter_lints: ^2.0.1
-  json_serializable: ^6.7.0
+  json_serializable: ^6.7.1
   # Asset generation
   flutter_gen: ^5.4.0
   flutter_gen_runner:
@@ -427,6 +427,7 @@ class Architecture {
 
   static Future<SelectedPackages> changePubspecYaml() async {
     final List<DependencyConfig> dependencyConfigs = <DependencyConfig>[];
+    final Map<String, String> packageVersions = <String, String>{};
 
     bool inDependencies = false;
     bool inDevDependencies = false;
@@ -507,6 +508,7 @@ class Architecture {
               isDev: inDevDependencies,
             );
             dependencyConfigs.add(config);
+            packageVersions[packageName] = versionPart.trim();
           }
         }
       }
@@ -549,34 +551,71 @@ class Architecture {
     final List<String> uniqueDependencies = dependencies.toSet().toList();
     final List<String> uniqueDevDependencies = devDependencies.toSet().toList();
 
+    final List<String> depArgs = uniqueDependencies
+        .map((String p) => packageVersions.containsKey(p)
+            ? '$p:${packageVersions[p]}'
+            : p)
+        .toList();
+    final List<String> devDepArgs = uniqueDevDependencies
+        .map((String p) => packageVersions.containsKey(p)
+            ? '$p:${packageVersions[p]}'
+            : p)
+        .toList();
+
     // ignore: avoid_print
     print('Parsed dependencies: ${uniqueDependencies.join(', ')}');
     // ignore: avoid_print
     print('Parsed dev_dependencies: ${uniqueDevDependencies.join(', ')}');
 
-    if (uniqueDependencies.isNotEmpty) {
-      final ProcessResult result = await Process.run(
+    if (depArgs.isNotEmpty) {
+      ProcessResult result = await Process.run(
         'flutter',
-        <String>['pub', 'add', ...uniqueDependencies],
+        <String>['pub', 'add', ...depArgs],
         workingDirectory: Directory.current.path,
       );
 
       if (result.exitCode != 0) {
         // ignore: avoid_print
-        print('Error adding dependencies: ${result.stderr}');
+        print('Batch add failed, trying one-by-one...');
+        for (final String pkg in uniqueDependencies) {
+          final String arg =
+              packageVersions.containsKey(pkg) ? '$pkg:${packageVersions[pkg]}' : pkg;
+          result = await Process.run(
+            'flutter',
+            <String>['pub', 'add', arg],
+            workingDirectory: Directory.current.path,
+          );
+          if (result.exitCode != 0) {
+            // ignore: avoid_print
+            print('Warning: Could not add $pkg: ${result.stderr}');
+          }
+        }
       }
     }
 
-    if (uniqueDevDependencies.isNotEmpty) {
-      final ProcessResult result = await Process.run(
+    if (devDepArgs.isNotEmpty) {
+      ProcessResult result = await Process.run(
         'flutter',
-        <String>['pub', 'add', '--dev', ...uniqueDevDependencies],
+        <String>['pub', 'add', '--dev', ...devDepArgs],
         workingDirectory: Directory.current.path,
       );
 
       if (result.exitCode != 0) {
         // ignore: avoid_print
-        print('Error adding dev dependencies: ${result.stderr}');
+        print('Batch add failed, trying one-by-one...');
+        for (final String pkg in uniqueDevDependencies) {
+          final String arg =
+              packageVersions.containsKey(pkg) ? '$pkg:${packageVersions[pkg]}' : pkg;
+          result = await Process.run(
+            'flutter',
+            <String>['pub', 'add', '--dev', arg],
+            workingDirectory: Directory.current.path,
+          );
+          if (result.exitCode != 0) {
+            // ignore: avoid_print
+            print('Warning: Could not add $pkg: ${result.stderr}');
+          }
+        }
       }
     }
 
