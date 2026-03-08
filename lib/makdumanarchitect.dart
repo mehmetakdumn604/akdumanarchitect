@@ -39,7 +39,6 @@ import 'scripts/build_sh.dart';
 const pubspec = """
 environment:
   sdk: ">=3.0.0 <4.0.0"
-  flutter: ">=1.17.0"
 
 dependencies:
   flutter:
@@ -620,6 +619,7 @@ class Architecture {
     }
 
     await _ensureFlutterAssetsInPubspec();
+    await _removeSelfFromPubspec();
     return SelectedPackages(optionalChoices: optionalChoices);
   }
 
@@ -700,6 +700,27 @@ class Architecture {
     updatedLines.insert(insertIndex, assetsHeader);
     updatedLines.insertAll(insertIndex + 1, desiredAssets);
     await pubspecFile.writeAsString(updatedLines.join('\n'));
+  }
+
+  static Future<void> _removeSelfFromPubspec() async {
+    final File pubspecFile = File('pubspec.yaml');
+    if (!pubspecFile.existsSync()) {
+      return;
+    }
+
+    final List<String> lines = await pubspecFile.readAsLines();
+    final List<String> updatedLines = <String>[];
+
+    for (final String line in lines) {
+      if (line.trimLeft().startsWith('makdumanarchitect:')) {
+        continue;
+      }
+      updatedLines.add(line);
+    }
+
+    if (updatedLines.length != lines.length) {
+      await pubspecFile.writeAsString(updatedLines.join('\n'));
+    }
   }
 
   static String? _askUserForOptionalDependency(DependencyConfig config) {
